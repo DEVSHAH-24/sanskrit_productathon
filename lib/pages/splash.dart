@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:sanskrit_project/models/firebaseModel.dart';
 
@@ -17,30 +16,30 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      body: Center(
+        child: Container(
+          child: Text('Hello'),
+        ),
+      ),
     );
   }
 
   void _navigationCondition() async {
     try {
-      firebaseModel
-          .initializeFirebase()
-          .then((value) => _conditionVerification());
+      await firebaseModel.initializeFirebase();
+      _conditionVerification();
     } catch (e) {
       _conditionVerification();
     }
   }
 
   void _conditionVerification() {
-    if (Firebase.apps.isNotEmpty) {
-      try {
-        User user = FirebaseAuth.instance.currentUser;
-        _navigateToHome();
-      } catch (e) {
-        _navigateToLogin();
-      }
-    } else {
-      _navigationCondition();
+    User user = FirebaseAuth.instance.currentUser;
+    try {
+      print(user.uid);
+      _navigateToHome();
+    } catch (e) {
+      _navigateToLogin();
     }
   }
 
