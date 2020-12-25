@@ -1,6 +1,6 @@
 # sanskrit_project
 
-Project for Productathon (IITR)
+Project for Productathon (IITR) participating as team ZENITH .
 
 ## Getting Started
 
