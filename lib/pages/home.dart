@@ -9,7 +9,9 @@ class Home extends StatelessWidget {
           'Hello World',
         ),
       ),
-      body: Text('Hello World',),
+      body: Text(
+        'Hello World',
+      ),
     );
   }
 }
