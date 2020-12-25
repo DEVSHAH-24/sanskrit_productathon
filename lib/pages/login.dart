@@ -6,22 +6,41 @@ import '../pages/splash.dart';
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SignInModel _signInModel = SignInModel();
     return Scaffold(
       body: Center(
-        child: MaterialButton(
-          child: Text(
-            'Login with Google',
-          ),
-          onPressed: () async {
-            SignInModel _signInModel = SignInModel();
-            await _signInModel.signInGoogle();
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Splash(),
+        child: Column(
+          children: [
+            MaterialButton(
+              child: Text(
+                'Login with Google',
               ),
-            );
-          },
+              onPressed: () async {
+                SignInModel _signInModel = SignInModel();
+                await _signInModel.signInGoogle();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Splash(),
+                  ),
+                );
+              },
+            ),
+            MaterialButton(
+              child: Text(
+                'Login with Facebook',
+              ),
+              onPressed: () async {
+                await _signInModel.signInFacebook();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Splash(),
+                  ),
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
