@@ -5,7 +5,7 @@ class SignInModel {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User> signIn() async {
+  Future<User> signInGoogle() async {
     final GoogleSignInAccount googleSignInAccount =
         await _googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
@@ -29,5 +29,9 @@ class SignInModel {
   Future signOutGoogle() async {
     await FirebaseAuth.instance.signOut();
     await _googleSignIn.signOut();
+  }
+
+  Future<void> signInFacebook() async{
+
   }
 }

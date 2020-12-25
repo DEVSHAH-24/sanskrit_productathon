@@ -14,7 +14,7 @@ class Login extends StatelessWidget {
           ),
           onPressed: () async {
             SignInModel _signInModel = SignInModel();
-            await _signInModel.signIn();
+            await _signInModel.signInGoogle();
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(
