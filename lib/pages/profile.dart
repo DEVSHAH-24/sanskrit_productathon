@@ -47,14 +47,72 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 200,
                       height: 200,
                       image: NetworkImage(_user.photoURL),
-                      placeholder: AssetImage('assets/placeholder.jpg'),
+                      placeholder: AssetImage('assets/images.png'),
                     ),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    '${_user.displayName}',
+                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RoundButton(
+                    onPressed: () {
+                      _auth.signOut();
+                    },
+                    title: 'Log out',
+                    color1: Colors.blueGrey,
+                    color2: Colors.blue[100],
                   ),
                 ],
               )
             : SpinKitDoubleBounce(
                 color: Colors.black,
               ),
+      ),
+    );
+  }
+}
+
+class RoundButton extends StatelessWidget {
+  RoundButton({this.title, this.color1, this.color2, @required this.onPressed});
+  final String title;
+  final Color color1;
+  final Function onPressed;
+  final Color color2;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: Material(
+        shadowColor: Colors.white,
+        elevation: 15.0,
+        // color: color,
+
+        borderRadius: BorderRadius.circular(40.0),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(40),
+              gradient: LinearGradient(
+                colors: [color1, color2],
+              )),
+          child: MaterialButton(
+            //padding: EdgeInsets.only(left: 15,right: 15),
+            onPressed: onPressed,
+            minWidth: 200,
+            height: 42.0,
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
