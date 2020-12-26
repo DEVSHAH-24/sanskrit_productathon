@@ -31,21 +31,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(left: 15, right: 15),
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.grey, Colors.white12, Colors.black12]),
-        ),
+        decoration: BoxDecoration(color: Colors.blueGrey[900]),
         child: _user != null
             ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: FadeInImage(
                       fit: BoxFit.cover,
-                      width: 200,
-                      height: 200,
+                      width: 150,
+                      height: 150,
                       image: NetworkImage(_user.photoURL),
                       placeholder: AssetImage('assets/images.png'),
                     ),
@@ -54,8 +53,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 15,
                   ),
                   Text(
-                    '${_user.displayName}',
-                    style: TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+                    '${_user.displayName}'.toUpperCase(),
+                    style: TextStyle(
+                      decoration: TextDecoration.none,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 20,
+                      color: Colors.tealAccent,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    color: Colors.black,
+                    child: Text(
+                      'Beginner',
+                      style: TextStyle(
+                        decoration: TextDecoration.none,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                        color: Colors.teal[100],
+                      ),
+                    ),
                   ),
                   SizedBox(
                     height: 20,

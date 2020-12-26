@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanskrit_project/pages/profile.dart';
 
 import '../models/signInModel.dart';
 import '../pages/splash.dart';
@@ -10,6 +11,7 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             MaterialButton(
               child: Text(
@@ -21,7 +23,7 @@ class Login extends StatelessWidget {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Splash(),
+                    builder: (context) => ProfileScreen(),
                   ),
                 );
               },
