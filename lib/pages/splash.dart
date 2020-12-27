@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sanskrit_project/models/dataModel.dart';
 import 'package:sanskrit_project/models/firebaseModel.dart';
 import 'package:sanskrit_project/pages/profile.dart';
 
@@ -34,10 +35,13 @@ class _SplashState extends State<Splash> {
     }
   }
 
-  void _conditionVerification() {
+  void _conditionVerification() async {
     User user = FirebaseAuth.instance.currentUser;
     try {
-      print(user.uid);
+      FirebaseModel firebaseModel = FirebaseModel();
+      DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
+      print(dataModel.name);
+      print(dataModel.email);
       _navigateToHome();
     } catch (e) {
       _navigateToLogin();

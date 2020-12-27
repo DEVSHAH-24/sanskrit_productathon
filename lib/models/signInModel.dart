@@ -27,16 +27,18 @@ class SignInModel {
     assert(user.uid == currentUser.uid);
     return currentUser;
   }
-Future<bool> isGoogleSignedIn()async{
+
+  Future<bool> isGoogleSignedIn() async {
     bool result = await _googleSignIn.isSignedIn();
     return result;
-}
+  }
+
   Future signOutGoogle() async {
     await FirebaseAuth.instance.signOut();
     await _googleSignIn.signOut();
   }
 
-  Future<void> signInFacebook() async {
+  Future<User> signInFacebook() async {
     final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
     final FacebookAccessToken facebookAccessToken = result.accessToken;
     final AuthCredential credential =
@@ -50,10 +52,12 @@ Future<bool> isGoogleSignedIn()async{
     assert(user.uid == currentUser.uid);
     return currentUser;
   }
-  Future<bool> isFacebookSignedIn()async{
+
+  Future<bool> isFacebookSignedIn() async {
     bool result = await _facebookLogin.isLoggedIn;
     return result;
   }
+
   Future signOutFacebook() async {
     await FirebaseAuth.instance.signOut();
     await _facebookLogin.logOut();
