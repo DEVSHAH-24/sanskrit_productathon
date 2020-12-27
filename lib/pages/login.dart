@@ -33,103 +33,118 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
             padding: const EdgeInsets.all(25.0),
-            child: Image(
-              height: 250,
-              width: 250,
-              image: AssetImage('assets/sanskritivelogo.jpeg'),
-            ),
-          ),
-          Center(
-            child: MaterialButton(
-              minWidth: MediaQuery.of(context).size.width * 0.7,
-              splashColor: Colors.red,
-              padding: const EdgeInsets.all(10),
-              shape: StadiumBorder(
-                side: BorderSide(
-                  color: Colors.grey,
-                  width: 2,
-                ),
-              ),
-              onPressed: () async {
-                try {
-                  User user = await _signInModel.signInGoogle();
-                  await _firebaseModel.uploadUserData(user);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Splash(),
-                    ),
-                  );
-                } catch (e) {
-                  _displayAlert(context);
-                }
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/google_logo.png',
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    'Login with Google',
-                  ),
-                ],
+            child: CircleAvatar(
+              backgroundColor: Colors.white,
+              maxRadius: 140,
+              child: Image(
+                height: 250,
+                width: 250,
+                image: AssetImage('assets/sanskritivelogo.jpeg'),
               ),
             ),
           ),
-          Center(
-            child: MaterialButton(
-              splashColor: Colors.blue,
-              minWidth: MediaQuery.of(context).size.width * 0.7,
-              padding: const EdgeInsets.all(10),
-              shape: StadiumBorder(
-                side: BorderSide(
-                  color: Colors.grey,
-                  width: 2,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: MaterialButton(
+                minWidth: MediaQuery.of(context).size.width * 0.7,
+                splashColor: Colors.red,
+                padding: const EdgeInsets.all(10),
+                shape: StadiumBorder(
+                  side: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                ),
+                onPressed: () async {
+                  try {
+                    User user = await _signInModel.signInGoogle();
+                    await _firebaseModel.uploadUserData(user);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Splash(),
+                      ),
+                    );
+                  } catch (e) {
+                    _displayAlert(context);
+                  }
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/google_logo.png',
+                      width: 20,
+                      height: 30,
+                    ),
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Text(
+                      'Login with Google',
+                    ),
+                  ],
                 ),
               ),
-              onPressed: () async {
-                try {
-                  User user = await _signInModel.signInFacebook();
-                  await _firebaseModel.uploadUserData(user);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Splash(),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: MaterialButton(
+                color: Colors.blue[700],
+                splashColor: Colors.blue,
+                minWidth: MediaQuery.of(context).size.width * 0.7,
+                padding: const EdgeInsets.all(10),
+                shape: StadiumBorder(
+                  side: BorderSide(
+                    color: Colors.grey,
+                    width: 2,
+                  ),
+                ),
+                onPressed: () async {
+                  try {
+                    User user = await _signInModel.signInFacebook();
+                    await _firebaseModel.uploadUserData(user);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Splash(),
+                      ),
+                    );
+                  } catch (e) {
+                    _displayAlert(context);
+                  }
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(
+                      'assets/facebook_logo.jpg',
+                      width: 20,
+                      height: 30,
                     ),
-                  );
-                } catch (e) {
-                  _displayAlert(context);
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Image.asset(
-                    'assets/facebook_logo.jpg',
-                    width: 20,
-                    height: 20,
-                  ),
-                  const SizedBox(
-                    width: 6,
-                  ),
-                  Text(
-                    'Login with Facebook',
-                  ),
-                ],
+                    const SizedBox(
+                      width: 6,
+                    ),
+                    Text(
+                      'Login with Facebook',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

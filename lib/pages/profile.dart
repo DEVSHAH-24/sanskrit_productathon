@@ -31,9 +31,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.black,
         title: Text(
           'Profile',
           style: TextStyle(color: Colors.white),
@@ -43,16 +44,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ? Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisAlignment: MainAxisAlignment.,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      width: 150,
-                      height: 150,
-                      image: NetworkImage(_user.photoURL),
-                      placeholder: AssetImage('assets/images.png'),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25, bottom: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        width: 150,
+                        height: 150,
+                        image: NetworkImage(_user.photoURL),
+                        placeholder: AssetImage('assets/images.png'),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -62,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     '${_user.displayName}'.toUpperCase(),
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w200,
                       fontSize: 25,
                       color: Colors.black,
                     ),
@@ -71,15 +75,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 20,
                   ),
                   FlatButton(
+                    autofocus: true,
+                    focusColor: Colors.green,
+                    textColor: Colors.black,
                     shape: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.greenAccent),
                         borderRadius: BorderRadius.circular(15)),
-                    color: Colors.black,
+                    // color: Colors.green,
                     child: Text(
                       'Beginner',
                       style: TextStyle(
                         decoration: TextDecoration.none,
                         fontWeight: FontWeight.w700,
-                        fontSize: 15,
+                        fontSize: 20,
                         color: Colors.black,
                       ),
                     ),
