@@ -18,7 +18,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sanskritive',
-      theme: ThemeData(fontFamily: "ProductSans"),
+      theme: ThemeData(
+          appBarTheme: AppBarTheme(
+              centerTitle: true,
+              // textTheme: TextTheme(headline3: TextStyle(color: Colors.black)),
+              actionsIconTheme: IconThemeData(
+                color: Colors.black,
+              ),
+              color: Colors.blue[200],
+              shadowColor: Colors.tealAccent[700]),
+          fontFamily: "ProductSans"),
       home: Splash(),
     );
   }

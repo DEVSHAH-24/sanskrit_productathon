@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sanskrit_project/bottomNavigation.dart';
 import 'package:sanskrit_project/models/dataModel.dart';
 import 'package:sanskrit_project/models/firebaseModel.dart';
 import 'package:sanskrit_project/pages/profile.dart';
@@ -61,7 +62,7 @@ class _SplashState extends State<Splash> {
     Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => ProfileScreen(),
+          builder: (context) => BottomPanel(),
         ),
         (route) => false);
   }
