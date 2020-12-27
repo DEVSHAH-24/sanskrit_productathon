@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:sanskrit_project/pages/login.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -34,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         height: MediaQuery.of(context).size.height,
         padding: EdgeInsets.only(left: 15, right: 15),
         width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(color: Colors.blueGrey[900]),
+        decoration: BoxDecoration(color: Colors.white),
         child: _user != null
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -56,9 +57,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     '${_user.displayName}'.toUpperCase(),
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w900,
                       fontSize: 20,
-                      color: Colors.tealAccent,
+                      color: Colors.black,
                     ),
                   ),
                   SizedBox(
@@ -67,14 +68,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   RaisedButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    color: Colors.black,
+                    color: Colors.greenAccent,
                     child: Text(
                       'Beginner',
                       style: TextStyle(
                         decoration: TextDecoration.none,
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
-                        color: Colors.teal[100],
+                        color: Colors.green[700],
                       ),
                     ),
                   ),
@@ -83,11 +84,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   RoundButton(
                     onPressed: () {
-                      _auth.signOut();
+                      _auth.signOut().then((value) => Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login())));
                     },
                     title: 'Log out',
-                    color1: Colors.blueGrey,
-                    color2: Colors.blue[100],
+                    color1: Colors.black,
+                    color2: Colors.black,
                   ),
                 ],
               )
