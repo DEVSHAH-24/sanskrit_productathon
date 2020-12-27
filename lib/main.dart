@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sanskrit_project/pages/login.dart';
 
 import './pages/splash.dart';
 
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sanskritive',
-      // theme: ThemeData.dark(),
+      theme: ThemeData(fontFamily: "ProductSans"),
       home: Splash(),
     );
   }

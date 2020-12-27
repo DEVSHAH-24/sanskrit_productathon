@@ -30,14 +30,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        height: MediaQuery.of(context).size.height,
-        padding: EdgeInsets.only(left: 15, right: 15),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(color: Colors.white),
-        child: _user != null
-            ? Column(
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.blueGrey,
+        title: Text(
+          'Profile',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+      body: _user != null
+          ? Center(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ClipRRect(
@@ -57,25 +62,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     '${_user.displayName}'.toUpperCase(),
                     style: TextStyle(
                       decoration: TextDecoration.none,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
                       color: Colors.black,
                     ),
                   ),
                   SizedBox(
                     height: 20,
                   ),
-                  RaisedButton(
+                  FlatButton(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15)),
-                    color: Colors.greenAccent,
+                    color: Colors.black,
                     child: Text(
                       'Beginner',
                       style: TextStyle(
                         decoration: TextDecoration.none,
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
-                        color: Colors.green[700],
+                        color: Colors.black,
                       ),
                     ),
                   ),
@@ -93,11 +98,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color2: Colors.black,
                   ),
                 ],
-              )
-            : SpinKitDoubleBounce(
-                color: Colors.black,
               ),
-      ),
+            )
+          : SpinKitDoubleBounce(
+              color: Colors.black,
+            ),
     );
   }
 }
