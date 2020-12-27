@@ -8,6 +8,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'Connect',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -30,9 +34,6 @@ class Home extends StatelessWidget {
             },
           )
         ],
-        title: Text(
-          'Hello World',
-        ),
       ),
       body: Text(
         'Hello World',
