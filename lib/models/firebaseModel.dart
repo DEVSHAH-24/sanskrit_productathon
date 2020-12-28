@@ -1,7 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 import 'package:sanskrit_project/models/dataModel.dart';
+
+import 'data.dart';
 
 class FirebaseModel {
   static const String projectName = 'sanskrit';
@@ -65,5 +69,22 @@ class FirebaseModel {
       );
     });
     return data;
+  }
+
+  void fetchUsers(BuildContext context) async {
+    CollectionReference reference = _db.collection('users');
+    await reference.get().then((cs) {
+      cs.docs.forEach((documentSnapshot) async {
+        print(documentSnapshot.data()['name']);
+        DataModel dataModel = DataModel(
+          name: documentSnapshot.data()['name'],
+          email: documentSnapshot.data()['email'],
+          photoUrl: documentSnapshot.data()['photoUrl'],
+          userId: documentSnapshot.data()['userId'],
+        );
+        Provider.of<Data>(context, listen: false).addDataModel(dataModel);
+      });
+    });
+    // Provider.of<Data>(context, listen: false).removeDataModel(dataModel);
   }
 }

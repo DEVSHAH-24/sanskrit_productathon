@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sanskrit_project/models/bottomPanelModel.dart';
 
 import './pages/home.dart';
 import './pages/learn.dart';
@@ -6,21 +8,17 @@ import './pages/login.dart';
 import './pages/profile.dart';
 import 'models/signInModel.dart';
 
-class BottomPanel extends StatefulWidget {
-  @override
-  _BottomPanelState createState() => _BottomPanelState();
-}
+Map<String, Widget> _pages = {
+  'Home': Home(),
+  'Learn': LearnPage(),
+  'Profile': ProfileScreen()
+};
 
-class _BottomPanelState extends State<BottomPanel> {
-  int _selectedPageIndex = 0;
-  Map<String, Widget> _pages = {
-    'Home': Home(),
-    'Learn': LearnPage(),
-    'Profile': ProfileScreen()
-  };
-
+class BottomPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int _selectedPageIndex = Provider.of<BottomPanelModel>(context).ind;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -38,7 +36,7 @@ class _BottomPanelState extends State<BottomPanel> {
                 ),
               );
             },
-          )
+          ),
         ],
         title: Text(
           _pages.keys.elementAt(_selectedPageIndex),
@@ -51,9 +49,7 @@ class _BottomPanelState extends State<BottomPanel> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: (index) {
-          setState(() {
-            _selectedPageIndex = index;
-          });
+          Provider.of<BottomPanelModel>(context, listen: false).setInd(index);
         },
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.white,

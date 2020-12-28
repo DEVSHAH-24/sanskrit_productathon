@@ -38,9 +38,10 @@ class _SplashState extends State<Splash> {
     User user = FirebaseAuth.instance.currentUser;
     try {
       FirebaseModel firebaseModel = FirebaseModel();
+      print(user.uid);
+      firebaseModel.initializeCollection(user.uid);
       DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
-      print(dataModel.name);
-      print(dataModel.email);
+      firebaseModel.fetchUsers(context);
       _navigateToHome();
     } catch (e) {
       _navigateToLogin();
