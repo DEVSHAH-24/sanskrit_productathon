@@ -3,9 +3,15 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:sanskrit_project/models/data.dart';
 import 'package:sanskrit_project/models/dataModel.dart';
+import 'package:sanskrit_project/models/firebaseModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     List<DataModel> usersData = [];
@@ -79,5 +85,17 @@ class Home extends StatelessWidget {
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseModel firebaseModel = FirebaseModel();
+    firebaseModel.fetchUsers(context);
   }
 }

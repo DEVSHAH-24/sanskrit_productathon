@@ -41,7 +41,7 @@ class _SplashState extends State<Splash> {
       print(user.uid);
       firebaseModel.initializeCollection(user.uid);
       DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
-      firebaseModel.fetchUsers(context);
+      // firebaseModel.fetchUsers(context);
       _navigateToHome();
     } catch (e) {
       _navigateToLogin();

@@ -4,10 +4,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:sanskrit_project/models/dataModel.dart';
+import 'package:sanskrit_project/models/signInModel.dart';
 
 import 'data.dart';
 
-class FirebaseModel {
+class FirebaseModel{
   static const String projectName = 'sanskrit';
   static const String messagingSenderId = '68627785713';
   static const String projectId = 'sanskrit-f24c2';
@@ -72,17 +73,22 @@ class FirebaseModel {
   }
 
   void fetchUsers(BuildContext context) async {
+    SignInModel signInModel
+     =SignInModel();
+    String userId = signInModel.getCurrentUser().uid;
     CollectionReference reference = _db.collection('users');
     await reference.get().then((cs) {
       cs.docs.forEach((documentSnapshot) async {
-        print(documentSnapshot.data()['name']);
-        DataModel dataModel = DataModel(
-          name: documentSnapshot.data()['name'],
-          email: documentSnapshot.data()['email'],
-          photoUrl: documentSnapshot.data()['photoUrl'],
-          userId: documentSnapshot.data()['userId'],
-        );
-        Provider.of<Data>(context, listen: false).addDataModel(dataModel);
+        if(documentSnapshot.id!=userId) {
+          print(documentSnapshot.data()['name']);
+          DataModel dataModel = DataModel(
+            name: documentSnapshot.data()['name'],
+            email: documentSnapshot.data()['email'],
+            photoUrl: documentSnapshot.data()['photoUrl'],
+            userId: documentSnapshot.data()['userId'],
+          );
+          Provider.of<Data>(context, listen: false).addDataModel(dataModel);
+        }
       });
     });
     // Provider.of<Data>(context, listen: false).removeDataModel(dataModel);
