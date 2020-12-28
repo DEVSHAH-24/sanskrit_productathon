@@ -96,11 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 RoundButton(
                   onPressed: () async {
                     SignInModel _signInModel = SignInModel();
-                    bool isGoogleSigned = await _signInModel.isGoogleSignedIn();
-                    if (isGoogleSigned)
-                      _signInModel.signOutGoogle();
-                    else
-                      _signInModel.signOutFacebook();
+                    _signInModel.signOutGoogle();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

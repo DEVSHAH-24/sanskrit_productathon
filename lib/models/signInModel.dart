@@ -38,31 +38,6 @@ class SignInModel {
     await _googleSignIn.signOut();
   }
 
-  Future<User> signInFacebook() async {
-    final FacebookLoginResult result = await _facebookLogin.logIn(['email']);
-    final FacebookAccessToken facebookAccessToken = result.accessToken;
-    final AuthCredential credential =
-        FacebookAuthProvider.credential(facebookAccessToken.token);
-    final UserCredential authResult =
-        await _auth.signInWithCredential(credential);
-    final User user = authResult.user;
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-    final User currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
-    return currentUser;
-  }
-
-  Future<bool> isFacebookSignedIn() async {
-    bool result = await _facebookLogin.isLoggedIn;
-    return result;
-  }
-
-  Future signOutFacebook() async {
-    await _auth.signOut();
-    await _facebookLogin.logOut();
-  }
-
   User getCurrentUser() {
     return _auth.currentUser;
   }

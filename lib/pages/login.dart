@@ -8,6 +8,7 @@ import '../pages/splash.dart';
 class Login extends StatelessWidget {
   final SignInModel _signInModel = SignInModel();
   final FirebaseModel _firebaseModel = FirebaseModel();
+
   void _displayAlert(BuildContext context) {
     showDialog(
         context: context,
@@ -92,56 +93,6 @@ class Login extends StatelessWidget {
                     ),
                     Text(
                       'Login with Google',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-              child: MaterialButton(
-                color: Colors.blue[700],
-                splashColor: Colors.blue,
-                minWidth: MediaQuery.of(context).size.width * 0.7,
-                padding: const EdgeInsets.all(10),
-                shape: StadiumBorder(
-                  side: BorderSide(
-                    color: Colors.grey,
-                    width: 2,
-                  ),
-                ),
-                onPressed: () async {
-                  try {
-                    User user = await _signInModel.signInFacebook();
-                    await _firebaseModel.uploadUserData(user);
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Splash(),
-                      ),
-                    );
-                  } catch (e) {
-                    _displayAlert(context);
-                  }
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'assets/facebook_logo.jpg',
-                      width: 20,
-                      height: 30,
-                    ),
-                    const SizedBox(
-                      width: 6,
-                    ),
-                    Text(
-                      'Login with Facebook',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
                     ),
                   ],
                 ),
