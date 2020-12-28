@@ -34,7 +34,7 @@ class SignInModel {
   }
 
   Future signOutGoogle() async {
-    await FirebaseAuth.instance.signOut();
+    await _auth.signOut();
     await _googleSignIn.signOut();
   }
 
@@ -59,7 +59,11 @@ class SignInModel {
   }
 
   Future signOutFacebook() async {
-    await FirebaseAuth.instance.signOut();
+    await _auth.signOut();
     await _facebookLogin.logOut();
+  }
+
+  User getCurrentUser() {
+    return _auth.currentUser;
   }
 }

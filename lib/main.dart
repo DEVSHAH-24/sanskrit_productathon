@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sanskrit_project/pages/login.dart';
 
 import './pages/splash.dart';
 

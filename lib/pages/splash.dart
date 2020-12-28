@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sanskrit_project/bottomNavigation.dart';
-import 'package:sanskrit_project/models/dataModel.dart';
-import 'package:sanskrit_project/models/firebaseModel.dart';
-import 'package:sanskrit_project/pages/profile.dart';
 
-import 'home.dart';
+import '../bottomNavigation.dart';
+import '../models/dataModel.dart';
+import '../models/firebaseModel.dart';
 import 'login.dart';
 
 class Splash extends StatefulWidget {

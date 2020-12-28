@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sanskrit_project/pages/home.dart';
-import 'package:sanskrit_project/pages/learn.dart';
-import 'package:sanskrit_project/pages/profile.dart';
+
+import './pages/home.dart';
+import './pages/learn.dart';
+import './pages/login.dart';
+import './pages/profile.dart';
+import 'models/signInModel.dart';
 
 class BottomPanel extends StatefulWidget {
   @override
@@ -10,11 +13,45 @@ class BottomPanel extends StatefulWidget {
 
 class _BottomPanelState extends State<BottomPanel> {
   int _selectedPageIndex = 0;
-  List _pages = [Home(), LearnPage(), ProfileScreen()];
+  Map<String, Widget> _pages = {
+    'Home': Home(),
+    'Learn': LearnPage(),
+    'Profile': ProfileScreen()
+  };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedPageIndex],
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+            ),
+            onPressed: () async {
+              SignInModel _signInModel = SignInModel();
+              bool isGoogleSigned = await _signInModel.isGoogleSignedIn();
+              if (isGoogleSigned)
+                _signInModel.signOutGoogle();
+              else
+                _signInModel.signOutFacebook();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              );
+            },
+          )
+        ],
+        title: Text(
+          _pages.keys.elementAt(_selectedPageIndex),
+        ),
+      ),
+      body: IndexedStack(
+        children: _pages.values.toList(),
+        index: _selectedPageIndex,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: (index) {
