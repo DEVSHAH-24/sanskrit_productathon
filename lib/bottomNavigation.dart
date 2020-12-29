@@ -1,26 +1,55 @@
 import 'package:flutter/material.dart';
-import 'package:sanskrit_project/pages/home.dart';
-import 'package:sanskrit_project/pages/learn.dart';
-import 'package:sanskrit_project/pages/profile.dart';
+import 'package:provider/provider.dart';
+import 'package:sanskrit_project/models/bottomPanelModel.dart';
 
-class BottomPanel extends StatefulWidget {
-  @override
-  _BottomPanelState createState() => _BottomPanelState();
-}
+import './pages/home.dart';
+import './pages/learn.dart';
+import './pages/login.dart';
+import './pages/profile.dart';
+import 'models/signInModel.dart';
 
-class _BottomPanelState extends State<BottomPanel> {
-  int _selectedPageIndex = 0;
-  List _pages = [Home(), LearnPage(), ProfileScreen()];
+Map<String, Widget> _pages = {
+  'Home': Home(),
+  'Learn': LearnPage(),
+  'Profile': ProfileScreen()
+};
+
+class BottomPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int _selectedPageIndex = Provider.of<BottomPanelModel>(context).ind;
+
     return Scaffold(
-      body: _pages[_selectedPageIndex],
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.logout,
+            ),
+            onPressed: () async {
+              SignInModel _signInModel = SignInModel();
+              _signInModel.signOutGoogle();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Login(),
+                ),
+              );
+            },
+          ),
+        ],
+        title: Text(
+          _pages.keys.elementAt(_selectedPageIndex),
+        ),
+      ),
+      body: IndexedStack(
+        children: _pages.values.toList(),
+        index: _selectedPageIndex,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPageIndex,
         onTap: (index) {
-          setState(() {
-            _selectedPageIndex = index;
-          });
+          Provider.of<BottomPanelModel>(context, listen: false).setInd(index);
         },
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.white,

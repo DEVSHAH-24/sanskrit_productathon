@@ -1,11 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sanskrit_project/bottomNavigation.dart';
-import 'package:sanskrit_project/models/dataModel.dart';
-import 'package:sanskrit_project/models/firebaseModel.dart';
-import 'package:sanskrit_project/pages/profile.dart';
 
-import 'home.dart';
+import '../bottomNavigation.dart';
+import '../models/dataModel.dart';
+import '../models/firebaseModel.dart';
 import 'login.dart';
 
 class Splash extends StatefulWidget {
@@ -40,9 +38,10 @@ class _SplashState extends State<Splash> {
     User user = FirebaseAuth.instance.currentUser;
     try {
       FirebaseModel firebaseModel = FirebaseModel();
+      print(user.uid);
+      firebaseModel.initializeCollection(user.uid);
       DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
-      print(dataModel.name);
-      print(dataModel.email);
+      // firebaseModel.fetchUsers(context);
       _navigateToHome();
     } catch (e) {
       _navigateToLogin();

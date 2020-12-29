@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sanskrit_project/pages/login.dart';
+import 'package:provider/provider.dart';
+import 'package:sanskrit_project/models/bottomPanelModel.dart';
 
 import './pages/splash.dart';
+import 'models/data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,20 +17,30 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Sanskritive',
-      theme: ThemeData(
-          appBarTheme: AppBarTheme(
-              centerTitle: true,
-              // textTheme: TextTheme(headline3: TextStyle(color: Colors.black)),
-              actionsIconTheme: IconThemeData(
-                color: Colors.black,
-              ),
-              color: Colors.blue[200],
-              shadowColor: Colors.tealAccent[700]),
-          fontFamily: "ProductSans"),
-      home: Splash(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => Data(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => BottomPanelModel(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Sanskritive',
+        theme: ThemeData(
+            appBarTheme: AppBarTheme(
+                centerTitle: true,
+                // textTheme: TextTheme(headline3: TextStyle(color: Colors.black)),
+                actionsIconTheme: IconThemeData(
+                  color: Colors.black,
+                ),
+                color: Colors.blue[200],
+                shadowColor: Colors.tealAccent[700]),
+            fontFamily: "ProductSans"),
+        home: Splash(),
+      ),
     );
   }
 }
