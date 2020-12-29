@@ -23,8 +23,11 @@ class _HomeState extends State<Home> {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: const Text(
-            'People Nearby',
+          child: Text(
+            'People nearby',
+            style: TextStyle(
+              fontSize: 20,
+            ),
           ),
         ),
         const SizedBox(
