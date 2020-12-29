@@ -67,14 +67,25 @@ class _LearnPageState extends State<LearnPage> {
                 crossAxisSpacing: 5,
                 childAspectRatio: 1),
             itemCount: sanskritWords.length,
-            itemBuilder: (context, index) => Container(
-                  decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(15)),
-                  child: Center(
-                    child: Text(
-                      sanskritWords[index],
-                      style: TextStyle(fontSize: 25, color: Colors.white),
+            itemBuilder: (context, index) => GestureDetector(
+                  onTap: () {
+                    showDialog(
+                        barrierDismissible: true,
+                        context: context,
+                        builder: (context) => AlertDialog(
+                              title: Text(sanskritWords[index]),
+                              content: Text('MEANING : Devotional worship'),
+                            ));
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey,
+                        borderRadius: BorderRadius.circular(15)),
+                    child: Center(
+                      child: Text(
+                        sanskritWords[index],
+                        style: TextStyle(fontSize: 25, color: Colors.white),
+                      ),
                     ),
                   ),
                 )),

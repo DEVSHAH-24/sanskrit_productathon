@@ -59,10 +59,10 @@ class _HomeState extends State<Home> {
                               dataModel.email,
                             ),
                             trailing: IconButton(
-                              icon: CircleAvatar(
-                                child: Icon(
-                                  Icons.mail,
-                                ),
+                              color: Colors.black,
+                              icon: Icon(
+                                Icons.email_outlined,
+                                color: Colors.black,
                               ),
                               onPressed: () {
                                 final Uri _emailLaunchUri = Uri(
