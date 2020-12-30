@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../bottomNavigation.dart';
-import '../models/dataModel.dart';
 import '../models/firebaseModel.dart';
 import 'login.dart';
 
@@ -40,7 +39,7 @@ class _SplashState extends State<Splash> {
       FirebaseModel firebaseModel = FirebaseModel();
       print(user.uid);
       firebaseModel.initializeCollection(user.uid);
-      DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
+      // DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
       // firebaseModel.fetchUsers(context);
       _navigateToHome();
     } catch (e) {

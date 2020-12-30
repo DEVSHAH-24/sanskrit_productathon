@@ -63,22 +63,16 @@ class _HomeState extends State<Home> {
                             trailing: IconButton(
                               color: Colors.black,
                               icon: Icon(
-                                Icons.link,
-                                //Icons.link_off,
+                                Provider.of<Data>(context)
+                                        .isConnected(dataModel.userId)
+                                    ? Icons.link
+                                    : Icons.link_off,
                                 color: Colors.black,
                               ),
-                              // onPressed: () {
-                              //   final Uri _emailLaunchUri = Uri(
-                              //     scheme: 'mailto',
-                              //     path: dataModel.email,
-                              //   );
-                              //   launch(
-                              //     _emailLaunchUri.toString(),
-                              //     forceSafariVC: true,
-                              //     forceWebView: true,
-                              //   );
-                              // },
-                              onPressed: () {},
+                              onPressed: () {
+                                Provider.of<Data>(context, listen: false)
+                                    .toggleConnected(dataModel.userId);
+                              },
                             ),
                           ),
                         );

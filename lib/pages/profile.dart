@@ -2,9 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import 'package:sanskrit_project/models/firebaseModel.dart';
 import 'package:sanskrit_project/models/signInModel.dart';
 
+import '../models/data.dart';
 import '../models/dataModel.dart';
 import '../pages/login.dart';
 import '../pages/widgets/roundedButton.dart';
@@ -77,7 +79,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         fit: BoxFit.cover,
                         width: 150,
                         height: 150,
-                        image: NetworkImage(userData.photoUrl),
+                        image: NetworkImage(
+                          userData.photoUrl,
+                        ),
                         placeholder: AssetImage(
                           'assets/images.png',
                         ),
@@ -157,25 +161,64 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ListTile(
                     onTap: () {
-                      Scaffold.of(context)
-                          .showBottomSheet((context) => ListView.builder(
-                              itemCount: 15,
-                              itemBuilder: (context, index) => Container(
-                                    padding: EdgeInsets.all(12),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.rectangle),
-                                    child: ListTile(
-                                      onLongPress: () {},
-                                      tileColor: Colors.blue[100],
-                                      title: Text('Pavan Kalyan Addepalli'),
-                                      subtitle: Text('email@email.com'),
-                                      trailing: Icon(Icons.email),
-                                    ),
-                                  )));
+                      Scaffold.of(context).showBottomSheet((context) =>
+                          Consumer<Data>(
+                            builder: (context, data, child) {
+                              print('rebuild');
+                              List<String> connectedUsers =
+                                  data.connectedUserIds;
+                              print(connectedUsers.length);
+                              List<DataModel> connectedUsersData = data.items;
+                              connectedUsersData.removeWhere((dataModel) =>
+                                  !connectedUsers.contains(dataModel.userId));
+                              print(connectedUsersData.length);
+                              return ListView.builder(
+                                  itemCount: connectedUsersData.length,
+                                  itemBuilder: (context, index) => Container(
+                                        padding: EdgeInsets.all(12),
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.rectangle),
+                                        child: ListTile(
+                                          onLongPress: () {},
+                                          tileColor: Colors.blue[100],
+                                          title: Text(
+                                            connectedUsersData[index].name,
+                                          ),
+                                          subtitle: Text(
+                                            connectedUsersData[index].email,
+                                          ),
+                                          trailing: IconButton(
+                                            color: Colors.black,
+                                            icon: Icon(
+                                              Provider.of<Data>(context)
+                                                      .isConnected(
+                                                          connectedUsersData[
+                                                                  index]
+                                                              .userId)
+                                                  ? Icons.link
+                                                  : Icons.link_off,
+                                              color: Colors.black,
+                                            ),
+                                            onPressed: () {
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .toggleConnected(
+                                                      connectedUsersData[index]
+                                                          .userId);
+                                            },
+                                          ),
+                                        ),
+                                      ));
+                            },
+                          ));
                     },
                     subtitle: Text('Tap to see all your connections'),
                     title: Text('Connections'),
-                    trailing: Text('24'),
+                    trailing: Consumer<Data>(
+                      builder: (context, data, child) => Text(
+                        data.connectedUserIds.length.toString(),
+                      ),
+                    ),
                   ),
                   RoundButton(
                     onPressed: () async {

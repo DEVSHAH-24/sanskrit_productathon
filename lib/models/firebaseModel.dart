@@ -35,6 +35,7 @@ class FirebaseModel {
 
   Future<void> uploadUserData(User user) async {
     initializeCollection(user.uid);
+    List<String> connectedUserIds = [];
     await ref.set(
         {
           'name': user.displayName,
@@ -42,6 +43,7 @@ class FirebaseModel {
           'photoUrl': user.photoURL,
           'userId': user.uid,
           'label': 'Beginner',
+          'connectedUserIds': connectedUserIds,
         },
         SetOptions(
           merge: true,
@@ -51,6 +53,12 @@ class FirebaseModel {
   Future<void> updateUserLabel(String label) async {
     await ref.update({
       'label': label,
+    });
+  }
+
+  Future<void> updateConnectedUserIds(List<String> connectedUserIds) async {
+    await ref.update({
+      'connectedUserIds': connectedUserIds,
     });
   }
 
@@ -70,20 +78,36 @@ class FirebaseModel {
     initializeCollection(userId);
     DataModel data = DataModel();
     await ref.get().then((documentSnapshot) {
+      List<String> connectedUserIds = [];
+      List<dynamic> connectedIds = documentSnapshot.data()['connectedUserIds'];
+      connectedUserIds = connectedIds.cast<String>();
       data = DataModel(
         name: documentSnapshot.data()['name'],
         email: documentSnapshot.data()['email'],
         photoUrl: documentSnapshot.data()['photoUrl'],
         userId: documentSnapshot.data()['userId'],
         label: documentSnapshot.data()['label'],
+        connectedUserIds: connectedUserIds,
       );
     });
     return data;
   }
 
+  Future<void> fetchConnectedUser(String uid, BuildContext context) async {
+    initializeCollection(uid);
+    List<String> connectedUserIds = [];
+    await ref.get().then((documentSnapshot) {
+      List<dynamic> connectedIds = documentSnapshot.data()['connectedUserIds'];
+      connectedUserIds = connectedIds.cast<String>();
+    });
+    Provider.of<Data>(context, listen: false)
+        .storeConnectedUserIds(connectedUserIds);
+  }
+
   Future<bool> fetchUsers(BuildContext context) async {
     SignInModel signInModel = SignInModel();
     String userId = signInModel.getCurrentUser().uid;
+    fetchConnectedUser(userId, context);
     CollectionReference reference = _db.collection('users');
     await reference.get().then((cs) {
       cs.docs.forEach((documentSnapshot) async {
