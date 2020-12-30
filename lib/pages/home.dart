@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/data.dart';
-import 'package:sanskrit_project/models/dataModel.dart';
-import 'package:sanskrit_project/models/firebaseModel.dart';
-import 'package:url_launcher/url_launcher.dart';
+
+import '../models/data.dart';
+import '../models/dataModel.dart';
+import '../models/firebaseModel.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -12,9 +12,11 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool completed = false;
+  List<DataModel> usersData = [];
+
   @override
   Widget build(BuildContext context) {
-    List<DataModel> usersData = [];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -56,34 +58,45 @@ class _HomeState extends State<Home> {
                               dataModel.name,
                             ),
                             subtitle: Text(
-                              dataModel.email,
+                              dataModel.label,
                             ),
                             trailing: IconButton(
                               color: Colors.black,
                               icon: Icon(
-                                Icons.email_outlined,
+                                Icons.link,
+                                //Icons.link_off,
                                 color: Colors.black,
                               ),
-                              onPressed: () {
-                                final Uri _emailLaunchUri = Uri(
-                                  scheme: 'mailto',
-                                  path: dataModel.email,
-                                );
-                                launch(
-                                  _emailLaunchUri.toString(),
-                                  forceSafariVC: true,
-                                  forceWebView: true,
-                                );
-                              },
+                              // onPressed: () {
+                              //   final Uri _emailLaunchUri = Uri(
+                              //     scheme: 'mailto',
+                              //     path: dataModel.email,
+                              //   );
+                              //   launch(
+                              //     _emailLaunchUri.toString(),
+                              //     forceSafariVC: true,
+                              //     forceWebView: true,
+                              //   );
+                              // },
+                              onPressed: () {},
                             ),
                           ),
                         );
                       },
                     ),
                   )
-                : SpinKitDoubleBounce(
-                    color: Colors.black,
-                  );
+                : (!completed
+                    ? SpinKitDoubleBounce(
+                        color: Colors.black,
+                      )
+                    : Center(
+                        child: Text(
+                          'No Users Nearby',
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                      ));
           },
         )
       ],
@@ -95,10 +108,17 @@ class _HomeState extends State<Home> {
     super.dispose();
   }
 
+  Future<void> fetchUsers() async {
+    FirebaseModel firebaseModel = FirebaseModel();
+    completed = await firebaseModel.fetchUsers(context);
+    setState(() {
+      completed = completed;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
-    FirebaseModel firebaseModel = FirebaseModel();
-    firebaseModel.fetchUsers(context);
+    fetchUsers();
   }
 }

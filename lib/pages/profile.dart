@@ -11,6 +11,7 @@ import '../pages/widgets/roundedButton.dart';
 
 class Item {
   const Item(this.name, this.color);
+
   final String name;
   final Color color;
 }
@@ -22,29 +23,37 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   DataModel userData = DataModel();
-  SignInModel signInModel = SignInModel();
+  SignInModel _signInModel = SignInModel();
+  FirebaseModel _firebaseModel = FirebaseModel();
 
   List<Item> users = <Item>[
     const Item('Beginner', Colors.green),
     const Item('Intermediate', Colors.yellow),
     const Item('Expert', Colors.red),
   ];
+
   @override
   void initState() {
     super.initState();
     fetchUserData();
+    if (userData.label == 'Beginner')
+      selectedItem = users[0];
+    else if (userData.label == 'Expert')
+      selectedItem = users[2];
+    else
+      selectedItem = users[1];
   }
 
   fetchUserData() async {
-    User fetchUser = signInModel.getCurrentUser();
-    FirebaseModel firebaseModel = FirebaseModel();
-    userData = await firebaseModel.getUserDataFromUser(fetchUser);
+    User fetchUser = _signInModel.getCurrentUser();
+    userData = await _firebaseModel.getUserDataFromCloud(fetchUser.uid);
     setState(() {
       userData = userData;
     });
   }
 
   Item selectedItem;
+
   @override
   Widget build(BuildContext context) {
     return userData.name != null
@@ -91,12 +100,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: 20,
                   ),
                   DropdownButton<Item>(
-                    hint: Text("Select level of proficiency"),
+                    hint: Text(
+                      "Select level of proficiency",
+                    ),
                     value: selectedItem,
                     onChanged: (Item value) {
                       setState(() {
                         selectedItem = value;
                       });
+                      if (selectedItem.name != userData.label) {
+                        _firebaseModel.updateUserLabel(selectedItem.name);
+                      }
                     },
                     items: users.map((Item user) {
                       return DropdownMenuItem<Item>(
@@ -165,7 +179,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   RoundButton(
                     onPressed: () async {
-                      SignInModel _signInModel = SignInModel();
                       _signInModel.signOutGoogle();
                       Navigator.pushReplacement(
                         context,

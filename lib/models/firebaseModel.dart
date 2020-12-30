@@ -8,7 +8,7 @@ import 'package:sanskrit_project/models/signInModel.dart';
 
 import 'data.dart';
 
-class FirebaseModel{
+class FirebaseModel {
   static const String projectName = 'sanskrit';
   static const String messagingSenderId = '68627785713';
   static const String projectId = 'sanskrit-f24c2';
@@ -41,10 +41,17 @@ class FirebaseModel{
           'email': user.email,
           'photoUrl': user.photoURL,
           'userId': user.uid,
+          'label': 'Beginner',
         },
         SetOptions(
           merge: true,
         ));
+  }
+
+  Future<void> updateUserLabel(String label) async {
+    await ref.update({
+      'label': label,
+    });
   }
 
   Future<DataModel> getUserDataFromUser(User user) async {
@@ -54,6 +61,7 @@ class FirebaseModel{
       email: user.email,
       photoUrl: user.photoURL,
       userId: user.uid,
+      label: 'Beginner',
     );
     return data;
   }
@@ -67,30 +75,32 @@ class FirebaseModel{
         email: documentSnapshot.data()['email'],
         photoUrl: documentSnapshot.data()['photoUrl'],
         userId: documentSnapshot.data()['userId'],
+        label: documentSnapshot.data()['label'],
       );
     });
     return data;
   }
 
-  void fetchUsers(BuildContext context) async {
-    SignInModel signInModel
-     =SignInModel();
+  Future<bool> fetchUsers(BuildContext context) async {
+    SignInModel signInModel = SignInModel();
     String userId = signInModel.getCurrentUser().uid;
     CollectionReference reference = _db.collection('users');
     await reference.get().then((cs) {
       cs.docs.forEach((documentSnapshot) async {
-        if(documentSnapshot.id!=userId) {
+        if (documentSnapshot.id != userId) {
           print(documentSnapshot.data()['name']);
           DataModel dataModel = DataModel(
             name: documentSnapshot.data()['name'],
             email: documentSnapshot.data()['email'],
             photoUrl: documentSnapshot.data()['photoUrl'],
             userId: documentSnapshot.data()['userId'],
+            label: documentSnapshot.data()['label'],
           );
           Provider.of<Data>(context, listen: false).addDataModel(dataModel);
         }
       });
     });
+    return true;
     // Provider.of<Data>(context, listen: false).removeDataModel(dataModel);
   }
 }
