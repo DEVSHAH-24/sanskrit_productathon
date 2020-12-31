@@ -38,12 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     fetchUserData();
-    if (userData.label == 'Beginner')
-      selectedItem = users[0];
-    else if (userData.label == 'Expert')
-      selectedItem = users[2];
-    else
-      selectedItem = users[1];
   }
 
   fetchUserData() async {
@@ -52,6 +46,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       userData = userData;
     });
+    if (userData.label == 'Beginner')
+      selectedItem = users[0];
+    else if (userData.label == 'Expert')
+      selectedItem = users[2];
+    else
+      selectedItem = users[1];
   }
 
   Item selectedItem;
@@ -223,12 +223,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   RoundButton(
                     onPressed: () async {
                       _signInModel.signOutGoogle();
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => Login(),
-                        ),
-                      );
+                      Navigator.pushAndRemoveUntil(context,
+                          MaterialPageRoute(
+                            builder: (context) => Login(),
+                          ), (route) => false);
                     },
                     title: 'Log out',
                     color1: Colors.black,

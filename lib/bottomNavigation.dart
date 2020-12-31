@@ -29,12 +29,10 @@ class BottomPanel extends StatelessWidget {
             onPressed: () async {
               SignInModel _signInModel = SignInModel();
               _signInModel.signOutGoogle();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Login(),
-                ),
-              );
+              Navigator.pushAndRemoveUntil(context,
+                  MaterialPageRoute(
+                    builder: (context) => Login(),
+                  ), (route) => false);
             },
           ),
         ],
