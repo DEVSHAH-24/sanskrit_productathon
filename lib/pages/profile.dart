@@ -91,15 +91,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Text(
-                    '${userData.name}'.toUpperCase(),
-                    style: TextStyle(
-                      decoration: TextDecoration.none,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 25,
-                      color: Colors.black,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 2,
+                    ),
+                    child: TextFormField(
+                      onFieldSubmitted: (value) =>
+                          _firebaseModel.updateUserName(value),
+                      initialValue: '${userData.name}'.toUpperCase(),
+                      textCapitalization: TextCapitalization.characters,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        hintText: 'Enter your name here',
+                        border: InputBorder.none,
+                      ),
+                      style: TextStyle(
+                        decoration: TextDecoration.none,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 25,
+                        color: Colors.black,
+                      ),
                     ),
                   ),
+                  // Text(
+                  //   '${userData.name}'.toUpperCase(),
+                  //   style: TextStyle(
+                  //     decoration: TextDecoration.none,
+                  //     fontWeight: FontWeight.w900,
+                  //     fontSize: 25,
+                  //     color: Colors.black,
+                  //   ),
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -152,10 +175,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         boxShadow: [BoxShadow(color: Colors.grey[200])]),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        'This is a bio. This is a bio. This is a bio. This is a bio. This is a bio. This is a bio. This is a bio. This is a bio. This is a bio.',
-                        style: TextStyle(
-                            color: Colors.lightBlue[900], fontSize: 15),
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'Enter your bio here',
+                        ),
+                        initialValue: userData.bio,
+                        onFieldSubmitted: (newValue) {
+                          _firebaseModel.updateUserBio(newValue);
+                        },
                       ),
                     ),
                   ),
@@ -223,10 +250,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   RoundButton(
                     onPressed: () async {
                       _signInModel.signOutGoogle();
-                      Navigator.pushAndRemoveUntil(context,
+                      Navigator.pushAndRemoveUntil(
+                          context,
                           MaterialPageRoute(
                             builder: (context) => Login(),
-                          ), (route) => false);
+                          ),
+                          (route) => false);
                     },
                     title: 'Log out',
                     color1: Colors.black,

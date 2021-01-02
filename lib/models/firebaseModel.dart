@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/dataModel.dart';
-import 'package:sanskrit_project/models/signInModel.dart';
 
 import 'data.dart';
+import 'dataModel.dart';
+import 'signInModel.dart';
 
 class FirebaseModel {
   static const String projectName = 'sanskrit';
@@ -44,6 +44,7 @@ class FirebaseModel {
           'userId': user.uid,
           'label': 'Beginner',
           'connectedUserIds': connectedUserIds,
+          'bio': 'This is a bio',
         },
         SetOptions(
           merge: true,
@@ -53,6 +54,17 @@ class FirebaseModel {
   Future<void> updateUserLabel(String label) async {
     await ref.update({
       'label': label,
+    });
+  }
+
+  Future<void> updateUserBio(String bio) async {
+    await ref.update({
+      'bio': bio,
+    });
+  }
+  Future<void> updateUserName(String name) async {
+    await ref.update({
+      'name': name,
     });
   }
 
@@ -88,6 +100,7 @@ class FirebaseModel {
         userId: documentSnapshot.data()['userId'],
         label: documentSnapshot.data()['label'],
         connectedUserIds: connectedUserIds,
+        bio: documentSnapshot.data()['bio'],
       );
     });
     return data;
@@ -119,6 +132,7 @@ class FirebaseModel {
             photoUrl: documentSnapshot.data()['photoUrl'],
             userId: documentSnapshot.data()['userId'],
             label: documentSnapshot.data()['label'],
+            bio: documentSnapshot.data()['bio'],
           );
           Provider.of<Data>(context, listen: false).addDataModel(dataModel);
         }
