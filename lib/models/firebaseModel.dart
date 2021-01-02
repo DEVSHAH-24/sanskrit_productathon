@@ -37,22 +37,22 @@ class FirebaseModel {
     initializeCollection(user.uid);
     List<String> connectedUserIds = [];
     DocumentSnapshot ds = await ref.get();
-    if(!ds.exists)
-    await ref.set(
-        {
-          'name': user.displayName,
-          'email': user.email,
-          'photoUrl': user.photoURL,
-          'userId': user.uid,
-          'label': 'Beginner',
-          'connectedUserIds': connectedUserIds,
-          'bio': 'This is a bio',
-          'sentByMe': [],
-          'receivedForMe': [],
-        },
-        SetOptions(
-          merge: true,
-        ));
+    if (!ds.exists)
+      await ref.set(
+          {
+            'name': user.displayName,
+            'email': user.email,
+            'photoUrl': user.photoURL,
+            'userId': user.uid,
+            'label': 'Beginner',
+            'connectedUserIds': connectedUserIds,
+            'bio': 'This is a bio',
+            'sentByMe': [],
+            'receivedForMe': [],
+          },
+          SetOptions(
+            merge: true,
+          ));
   }
 
   Future<void> updateUserLabel(String label) async {
@@ -85,19 +85,23 @@ class FirebaseModel {
     String currentUid = signInModel.getCurrentUser().uid;
     await ref.update({
       'connectedUserIds': connectedUserIds,
-      'requestedUserIds': receivedForMe,
+      'receivedForMe': receivedForMe,
     });
-    Map<String, List<String>> userRequestedIds = {
-      'SentByMe': [],
-      'ReceivedForMe': []
-    };
-    await _db.collection('users').doc(userId).get().then((value) =>
-        userRequestedIds = value.data()['requestedUserIds']['ReceivedForMe']);
-    userRequestedIds['SentByMe'].remove(currentUid);
-    await _db
-        .collection('users')
-        .doc(userId)
-        .update({'requestedUserIds': userRequestedIds});
+    List<String> sentByMe = [''];
+    List<String> connectedUsers = [''];
+    await _db.collection('users').doc(userId).get().then((documentSnapshot) {
+      List<dynamic> _sentByMe = documentSnapshot.data()['sentByMe'];
+      List<dynamic> _connectedUsers =
+          documentSnapshot.data()['connectedUserIds'];
+      connectedUsers = _connectedUsers.cast<String>();
+      sentByMe = _sentByMe.cast<String>();
+    });
+    sentByMe.remove(currentUid);
+    connectedUsers.add(currentUid);
+    await _db.collection('users').doc(userId).update({
+      'sentByMe': sentByMe,
+      'connectedUserIds': connectedUsers,
+    });
   }
 
   Future<void> makeRequest(String userId, List<String> sentByMe) async {
