@@ -86,6 +86,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
                     onPressed: () {
                       messageTextController.clear();
                       _firestore.collection('messages').add({
+                        'username': loggedInUser.displayName,
                         'msg': messageText,
                         'sender': loggedInUser.email,
                       });
@@ -118,16 +119,19 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs.reversed;
+        final messages = snapshot.data.docs;
         List<MessageBubble> messageBubbles = [];
         for (var message in messages) {
+          final messageSenderName = message.data()['username'] != null
+              ? message.data()['username']
+              : 'Name';
           final messageText = message.data()['msg'];
           final messageSender = message.data()['sender'];
 
           final currentUser = loggedInUser.email;
 
           final messageBubble = MessageBubble(
-            sender: loggedInUser.displayName,
+            sender: messageSenderName,
             text: messageText,
             isMe: currentUser == messageSender,
           );
@@ -136,7 +140,7 @@ class MessageStream extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
-            reverse: true,
+            //reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),

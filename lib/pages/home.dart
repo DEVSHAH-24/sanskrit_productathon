@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
           height: 10,
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
