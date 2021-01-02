@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:sanskrit_project/pages/messaging.dart';
 
 import '../models/data.dart';
 import '../models/dataModel.dart';
@@ -23,14 +24,22 @@ class _HomeState extends State<Home> {
         const SizedBox(
           height: 10,
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            'People nearby',
-            style: TextStyle(
-              fontSize: 20,
+        Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'People nearby',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
             ),
-          ),
+            IconButton(
+                icon: Icon(Icons.chat),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MessagingScreen())))
+          ],
         ),
         const SizedBox(
           height: 10,

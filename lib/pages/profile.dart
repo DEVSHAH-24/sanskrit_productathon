@@ -96,21 +96,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       horizontal: 10,
                       vertical: 2,
                     ),
-                    child: TextFormField(
-                      onFieldSubmitted: (value) =>
-                          _firebaseModel.updateUserName(value),
-                      initialValue: '${userData.name}'.toUpperCase(),
-                      textCapitalization: TextCapitalization.characters,
-                      autocorrect: false,
-                      decoration: InputDecoration(
-                        hintText: 'Enter your name here',
-                        border: InputBorder.none,
-                      ),
-                      style: TextStyle(
-                        decoration: TextDecoration.none,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 25,
-                        color: Colors.black,
+                    child: Center(
+                      child: TextFormField(
+                        onFieldSubmitted: (value) =>
+                            _firebaseModel.updateUserName(value),
+                        initialValue: '${userData.name}'.toUpperCase(),
+                        textCapitalization: TextCapitalization.characters,
+                        autocorrect: false,
+                        decoration: InputDecoration(
+                          hintText: 'Enter your name here',
+                          border: InputBorder.none,
+                        ),
+                        style: TextStyle(
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 25,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -177,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                         decoration: InputDecoration(
-                          hintText: 'Enter your bio here',
+                          hintText: 'I am a member of Sanskritive community :)',
                         ),
                         initialValue: userData.bio,
                         onFieldSubmitted: (newValue) {
@@ -195,7 +197,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               List<String> connectedUsers =
                                   data.connectedUserIds;
                               print(connectedUsers.length);
-                              List<DataModel> connectedUsersData = data.usersData;
+                              List<DataModel> connectedUsersData =
+                                  data.usersData;
                               connectedUsersData.removeWhere((dataModel) =>
                                   !connectedUsers.contains(dataModel.userId));
                               print(connectedUsersData.length);

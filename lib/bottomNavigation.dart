@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sanskrit_project/pages/messaging.dart';
 import 'package:sanskrit_project/pages/widgets/badge.dart';
 
 import './pages/home.dart';
@@ -10,7 +11,7 @@ import 'models/bottomPanelModel.dart';
 import 'models/data.dart';
 
 Map<String, Widget> _pages = {
-  'Home': Home(),
+  'Connect': Home(),
   'Learn': LearnPage(),
   'Profile': ProfileScreen()
 };
@@ -73,7 +74,7 @@ class BottomPanel extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_box),
-            label: 'Account',
+            label: 'Profile',
           ),
         ],
       ),
