@@ -87,10 +87,59 @@ class _HomeState extends State<Home> {
                                               'Connected',
                                             ),
                                             onPressed: () {
-                                              Provider.of<Data>(context,
-                                                      listen: false)
-                                                  .removeConnect(
-                                                      dataModel.userId);
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                      ),
+                                                      title: Text('ERROR'),
+                                                      content: Text(
+                                                        'Are You Sure?',
+                                                      ),
+                                                      elevation: 40,
+                                                      actions: <Widget>[
+                                                        FlatButton(
+                                                          onPressed: () async {
+                                                            await Navigator
+                                                                    .maybePop(
+                                                                        context)
+                                                                .then((value) => Provider.of<
+                                                                            Data>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .removeConnect(
+                                                                        dataModel
+                                                                            .userId));
+                                                          },
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          child: Text(
+                                                            'Yes',
+                                                          ),
+                                                        ),
+                                                        FlatButton(
+                                                          onPressed: () async {
+                                                            await Navigator
+                                                                .maybePop(
+                                                                    context);
+                                                          },
+                                                          color:
+                                                              Theme.of(context)
+                                                                  .primaryColor,
+                                                          child: Text(
+                                                            'No',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    );
+                                                  });
                                             },
                                           )
                                         : FlatButton(

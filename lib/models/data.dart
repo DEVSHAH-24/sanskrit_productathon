@@ -49,7 +49,7 @@ class Data with ChangeNotifier {
   void removeConnect(String id) {
     _connectedUserIds.remove(id);
     notifyListeners();
-    fm.updateConnectedUserIds(_connectedUserIds);
+    fm.updateConnectedUserIds(_connectedUserIds,id);
   }
 
   void connect(String id) {

@@ -73,9 +73,22 @@ class FirebaseModel {
     });
   }
 
-  Future<void> updateConnectedUserIds(List<String> connectedUserIds) async {
+  Future<void> updateConnectedUserIds(
+      List<String> connectedUserIds, String userId) async {
+    SignInModel signInModel = SignInModel();
+    String currentUid = signInModel.getCurrentUser().uid;
     await ref.update({
       'connectedUserIds': connectedUserIds,
+    });
+    List<String> connectedUsers = [''];
+    await _db.collection('users').doc(userId).get().then((documentSnapshot) {
+      List<dynamic> _connectedUsers =
+          documentSnapshot.data()['connectedUserIds'];
+      connectedUsers = _connectedUsers.cast<String>();
+    });
+    connectedUsers.remove(currentUid);
+    await _db.collection('users').doc(userId).update({
+      'connectedUserIds': connectedUsers,
     });
   }
 
