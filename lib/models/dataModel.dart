@@ -6,7 +6,8 @@ class DataModel {
   final String label;
   final List<String> connectedUserIds;
   final String bio;
-  final Map<String, List<String>> requestedIds;
+  final List<String> receivedForMe;
+  final List<String> sentByMe;
 
   const DataModel({
     this.name,
@@ -16,6 +17,7 @@ class DataModel {
     this.label,
     this.connectedUserIds,
     this.bio,
-    this.requestedIds
+    this.receivedForMe,
+    this.sentByMe,
   });
 }

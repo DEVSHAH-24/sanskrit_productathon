@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sanskrit_project/models/data.dart';
 
 import '../bottomNavigation.dart';
+import '../models/dataModel.dart';
 import '../models/firebaseModel.dart';
 import 'login.dart';
 
@@ -36,11 +39,13 @@ class _SplashState extends State<Splash> {
   void _conditionVerification() async {
     User user = FirebaseAuth.instance.currentUser;
     try {
-      FirebaseModel firebaseModel = FirebaseModel();
       print(user.uid);
       firebaseModel.initializeCollection(user.uid);
-      // DataModel dataModel = await firebaseModel.getUserDataFromUser(user);
-      // firebaseModel.fetchUsers(context);
+      DataModel dataModel = await firebaseModel.getUserDataFromCloud(user.uid);
+      Provider.of<Data>(context, listen: false)
+          .storeReceivedForMe(dataModel.receivedForMe);
+      Provider.of<Data>(context, listen: false)
+          .storeSentByMe(dataModel.sentByMe);
       _navigateToHome();
     } catch (e) {
       _navigateToLogin();

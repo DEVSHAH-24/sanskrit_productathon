@@ -5,7 +5,8 @@ import 'package:sanskrit_project/models/firebaseModel.dart';
 class Data with ChangeNotifier {
   List<DataModel> _usersData = [];
   List<String> _connectedUserIds = [];
-  Map<String, List<String>> _requestedUserIds = {'SentByMe':[],'ReceivedForMe':[]};
+  List<String> _receivedForMe = [];
+  List<String> _sentByMe = [];
   final FirebaseModel fm = FirebaseModel();
 
   List<DataModel> get items {
@@ -21,26 +22,25 @@ class Data with ChangeNotifier {
     _connectedUserIds = connectedUserIds;
   }
 
+  void storeReceivedForMe(List<String> receivedForMe) {
+    _receivedForMe = receivedForMe;
+  }
+  void storeSentByMe(List<String> sentByMe) {
+    _sentByMe = sentByMe;
+  }
+
   List<String> get connectedUserIds {
     return [..._connectedUserIds];
   }
 
-  Map<String, List<String>> get requestedUserIds {
-    return {..._requestedUserIds};
-  }
-
   List<String> get sentByMe {
-    return [...requestedUserIds['SentByMe']];
+    return [..._sentByMe];
   }
 
   List<String> get receivedForMe {
-    return [...requestedUserIds['ReceivedForMe']];
+    return [..._receivedForMe];
   }
 
-// void removeDataModel(DataModel dataModel){
-//   _usersData.remove(dataModel);
-//   notifyListeners();
-// }
   bool isConnected(String id) {
     if (_connectedUserIds.contains(id)) return true;
     return false;
@@ -53,25 +53,25 @@ class Data with ChangeNotifier {
   }
 
   void connect(String id) {
-    _requestedUserIds['SentByMe'].add(id);
+    _sentByMe.add(id);
     notifyListeners();
-    fm.makeRequest(id,_requestedUserIds);
+    fm.makeRequest(id, _sentByMe);
   }
 
   void accept(String id) {
-    _requestedUserIds['ReceivedForMe'].remove(id);
+    _receivedForMe.remove(id);
     _connectedUserIds.add(id);
     notifyListeners();
-    fm.acceptRequest(id,_requestedUserIds,_connectedUserIds);
+    fm.acceptRequest(id, _receivedForMe, _connectedUserIds);
   }
 
   bool sentByMeRequest(String id) {
-    if (_requestedUserIds['SentByMe'].contains(id)) return true;
+    if (_sentByMe.contains(id)) return true;
     return false;
   }
 
   bool receivedForMeRequest(String id) {
-    if (_requestedUserIds['ReceivedForMe'].contains(id)) return true;
+    if (_receivedForMe.contains(id)) return true;
     return false;
   }
 }

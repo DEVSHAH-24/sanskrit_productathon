@@ -16,7 +16,6 @@ class FirebaseModel {
   static const String appId = '1:68627785713:android:39ee8d5ca584fb837e0650';
   static FirebaseFirestore _db = FirebaseFirestore.instance;
   static DocumentReference ref;
-  SignInModel signInModel = SignInModel();
 
   Future<void> initializeFirebase() async {
     await Firebase.initializeApp(
@@ -37,10 +36,8 @@ class FirebaseModel {
   Future<void> uploadUserData(User user) async {
     initializeCollection(user.uid);
     List<String> connectedUserIds = [];
-    Map<String, List<String>> requestedUserIds = {
-      'SentByMe': [],
-      'ReceivedForMe': []
-    };
+    DocumentSnapshot ds = await ref.get();
+    if(!ds.exists)
     await ref.set(
         {
           'name': user.displayName,
@@ -50,7 +47,8 @@ class FirebaseModel {
           'label': 'Beginner',
           'connectedUserIds': connectedUserIds,
           'bio': 'This is a bio',
-          'requestedUserIds': requestedUserIds,
+          'sentByMe': [],
+          'receivedForMe': [],
         },
         SetOptions(
           merge: true,
@@ -81,14 +79,13 @@ class FirebaseModel {
     });
   }
 
-  Future<void> acceptRequest(
-      String userId,
-      Map<String, List<String>> requestedUserIds,
+  Future<void> acceptRequest(String userId, List<String> receivedForMe,
       List<String> connectedUserIds) async {
+    SignInModel signInModel = SignInModel();
     String currentUid = signInModel.getCurrentUser().uid;
     await ref.update({
       'connectedUserIds': connectedUserIds,
-      'requestedUserIds': requestedUserIds,
+      'requestedUserIds': receivedForMe,
     });
     Map<String, List<String>> userRequestedIds = {
       'SentByMe': [],
@@ -103,24 +100,24 @@ class FirebaseModel {
         .update({'requestedUserIds': userRequestedIds});
   }
 
-  Future<void> makeRequest(
-      String userId, Map<String, List<String>> requestedUserIds) async {
+  Future<void> makeRequest(String userId, List<String> sentByMe) async {
+    SignInModel signInModel = SignInModel();
     String currentUid = signInModel.getCurrentUser().uid;
     await _db
         .collection('users')
         .doc(currentUid)
-        .update({'requestedUserIds': requestedUserIds});
-    Map<String, List<String>> userRequestedIds = {
-      'SentByMe': [],
-      'ReceivedForMe': []
-    };
-    await _db.collection('users').doc(userId).get().then((value) =>
-        userRequestedIds = value.data()['requestedUserIds']['ReceivedForMe']);
-    userRequestedIds['ReceivedForMe'].add(currentUid);
+        .update({'sentByMe': sentByMe});
+    List<String> received = [''];
+
+    await _db.collection('users').doc(userId).get().then((documentSnapshot) {
+      List<dynamic> _received = documentSnapshot.data()['receivedForMe'];
+      received = _received.cast<String>();
+    });
+    received.add(currentUid);
     await _db
         .collection('users')
         .doc(userId)
-        .update({'requestedUserIds': userRequestedIds});
+        .update({'receivedForMe': received});
   }
 
   Future<DataModel> getUserDataFromUser(User user) async {
@@ -140,15 +137,14 @@ class FirebaseModel {
     DataModel data = DataModel();
     await ref.get().then((documentSnapshot) {
       List<String> connectedUserIds = [];
-      Map<String, List<String>> requestedUserIds = {
-        'SentByMe': [],
-        'ReceivedForMe': []
-      };
       List<dynamic> connectedIds = documentSnapshot.data()['connectedUserIds'];
-      Map<String, dynamic> requestedIds =
-          documentSnapshot.data()['requestedUserIds'];
-      requestedUserIds = requestedIds.cast<String, List<String>>();
       connectedUserIds = connectedIds.cast<String>();
+      List<String> receivedForMe = [];
+      List<dynamic> _received = documentSnapshot.data()['receivedForMe'];
+      receivedForMe = _received.cast<String>();
+      List<String> sentByMe = [];
+      List<dynamic> _sent = documentSnapshot.data()['sentByMe'];
+      sentByMe = _sent.cast<String>();
       data = DataModel(
           name: documentSnapshot.data()['name'],
           email: documentSnapshot.data()['email'],
@@ -157,7 +153,8 @@ class FirebaseModel {
           label: documentSnapshot.data()['label'],
           connectedUserIds: connectedUserIds,
           bio: documentSnapshot.data()['bio'],
-          requestedIds: requestedUserIds);
+          receivedForMe: receivedForMe,
+          sentByMe: sentByMe);
     });
     return data;
   }
