@@ -6,6 +6,7 @@ class DataModel {
   final String label;
   final List<String> connectedUserIds;
   final String bio;
+  final Map<String, List<String>> requestedIds;
 
   const DataModel({
     this.name,
@@ -15,5 +16,6 @@ class DataModel {
     this.label,
     this.connectedUserIds,
     this.bio,
+    this.requestedIds
   });
 }

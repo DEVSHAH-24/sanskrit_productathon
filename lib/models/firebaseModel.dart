@@ -16,6 +16,7 @@ class FirebaseModel {
   static const String appId = '1:68627785713:android:39ee8d5ca584fb837e0650';
   static FirebaseFirestore _db = FirebaseFirestore.instance;
   static DocumentReference ref;
+  SignInModel signInModel = SignInModel();
 
   Future<void> initializeFirebase() async {
     await Firebase.initializeApp(
@@ -36,6 +37,10 @@ class FirebaseModel {
   Future<void> uploadUserData(User user) async {
     initializeCollection(user.uid);
     List<String> connectedUserIds = [];
+    Map<String, List<String>> requestedUserIds = {
+      'SentByMe': [],
+      'ReceivedForMe': []
+    };
     await ref.set(
         {
           'name': user.displayName,
@@ -45,6 +50,7 @@ class FirebaseModel {
           'label': 'Beginner',
           'connectedUserIds': connectedUserIds,
           'bio': 'This is a bio',
+          'requestedUserIds': requestedUserIds,
         },
         SetOptions(
           merge: true,
@@ -62,6 +68,7 @@ class FirebaseModel {
       'bio': bio,
     });
   }
+
   Future<void> updateUserName(String name) async {
     await ref.update({
       'name': name,
@@ -72,6 +79,48 @@ class FirebaseModel {
     await ref.update({
       'connectedUserIds': connectedUserIds,
     });
+  }
+
+  Future<void> acceptRequest(
+      String userId,
+      Map<String, List<String>> requestedUserIds,
+      List<String> connectedUserIds) async {
+    String currentUid = signInModel.getCurrentUser().uid;
+    await ref.update({
+      'connectedUserIds': connectedUserIds,
+      'requestedUserIds': requestedUserIds,
+    });
+    Map<String, List<String>> userRequestedIds = {
+      'SentByMe': [],
+      'ReceivedForMe': []
+    };
+    await _db.collection('users').doc(userId).get().then((value) =>
+        userRequestedIds = value.data()['requestedUserIds']['ReceivedForMe']);
+    userRequestedIds['SentByMe'].remove(currentUid);
+    await _db
+        .collection('users')
+        .doc(userId)
+        .update({'requestedUserIds': userRequestedIds});
+  }
+
+  Future<void> makeRequest(
+      String userId, Map<String, List<String>> requestedUserIds) async {
+    String currentUid = signInModel.getCurrentUser().uid;
+    await _db
+        .collection('users')
+        .doc(currentUid)
+        .update({'requestedUserIds': requestedUserIds});
+    Map<String, List<String>> userRequestedIds = {
+      'SentByMe': [],
+      'ReceivedForMe': []
+    };
+    await _db.collection('users').doc(userId).get().then((value) =>
+        userRequestedIds = value.data()['requestedUserIds']['ReceivedForMe']);
+    userRequestedIds['ReceivedForMe'].add(currentUid);
+    await _db
+        .collection('users')
+        .doc(userId)
+        .update({'requestedUserIds': userRequestedIds});
   }
 
   Future<DataModel> getUserDataFromUser(User user) async {
@@ -91,17 +140,24 @@ class FirebaseModel {
     DataModel data = DataModel();
     await ref.get().then((documentSnapshot) {
       List<String> connectedUserIds = [];
+      Map<String, List<String>> requestedUserIds = {
+        'SentByMe': [],
+        'ReceivedForMe': []
+      };
       List<dynamic> connectedIds = documentSnapshot.data()['connectedUserIds'];
+      Map<String, dynamic> requestedIds =
+          documentSnapshot.data()['requestedUserIds'];
+      requestedUserIds = requestedIds.cast<String, List<String>>();
       connectedUserIds = connectedIds.cast<String>();
       data = DataModel(
-        name: documentSnapshot.data()['name'],
-        email: documentSnapshot.data()['email'],
-        photoUrl: documentSnapshot.data()['photoUrl'],
-        userId: documentSnapshot.data()['userId'],
-        label: documentSnapshot.data()['label'],
-        connectedUserIds: connectedUserIds,
-        bio: documentSnapshot.data()['bio'],
-      );
+          name: documentSnapshot.data()['name'],
+          email: documentSnapshot.data()['email'],
+          photoUrl: documentSnapshot.data()['photoUrl'],
+          userId: documentSnapshot.data()['userId'],
+          label: documentSnapshot.data()['label'],
+          connectedUserIds: connectedUserIds,
+          bio: documentSnapshot.data()['bio'],
+          requestedIds: requestedUserIds);
     });
     return data;
   }

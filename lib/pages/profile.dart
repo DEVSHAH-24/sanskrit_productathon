@@ -227,11 +227,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               color: Colors.black,
                                             ),
                                             onPressed: () {
-                                              Provider.of<Data>(context,
-                                                      listen: false)
-                                                  .toggleConnected(
-                                                      connectedUsersData[index]
-                                                          .userId);
+                                              // Provider.of<Data>(context,
+                                              //         listen: false)
+                                              //     .toggleConnected(
+                                              //         connectedUsersData[index]
+                                              //             .userId);
                                             },
                                           ),
                                         ),

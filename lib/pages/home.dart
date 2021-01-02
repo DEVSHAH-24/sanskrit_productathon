@@ -60,20 +60,50 @@ class _HomeState extends State<Home> {
                             subtitle: Text(
                               dataModel.label,
                             ),
-                            trailing: IconButton(
-                              color: Colors.black,
-                              icon: Icon(
-                                Provider.of<Data>(context)
-                                        .isConnected(dataModel.userId)
-                                    ? Icons.link
-                                    : Icons.link_off,
-                                color: Colors.black,
-                              ),
-                              onPressed: () {
-                                Provider.of<Data>(context, listen: false)
-                                    .toggleConnected(dataModel.userId);
-                              },
-                            ),
+                            trailing: Provider.of<Data>(context)
+                                    .sentByMeRequest(dataModel.userId)
+                                ? FlatButton(
+                                    child: Text(
+                                      'Request Sent',
+                                    ),
+                                    onPressed: () {},
+                                  )
+                                : Provider.of<Data>(context)
+                                        .receivedForMeRequest(dataModel.userId)
+                                    ? FlatButton(
+                                        child: Text(
+                                          'Accept',
+                                        ),
+                                        onPressed: () {
+                                          Provider.of<Data>(context,
+                                                  listen: false)
+                                              .accept(dataModel.userId);
+                                        },
+                                      )
+                                    : Provider.of<Data>(context)
+                                            .isConnected(dataModel.userId)
+                                        ? FlatButton(
+                                            child: Text(
+                                              'Connected',
+                                            ),
+                                            onPressed: () {
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .removeConnect(
+                                                      dataModel.userId);
+                                            },
+                                          )
+                                        : FlatButton(
+                                            textColor: Colors.black,
+                                            child: Text(
+                                              'Connect',
+                                            ),
+                                            onPressed: () {
+                                              Provider.of<Data>(context,
+                                                      listen: false)
+                                                  .connect(dataModel.userId);
+                                            },
+                                          ),
                           ),
                         );
                       },
