@@ -10,6 +10,7 @@ import 'package:sanskrit_project/chat_constants.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
+final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
 
 class MessagingScreen extends StatefulWidget {
   @override
@@ -21,7 +22,6 @@ class _MessagingScreenState extends State<MessagingScreen> {
   final _auth = FirebaseAuth.instance;
   String messageText;
 
-  // final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -86,6 +86,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
                     onPressed: () {
                       messageTextController.clear();
                       _firestore.collection('messages').add({
+                        // 'time': DateTime.
                         'username': loggedInUser.displayName,
                         'msg': messageText,
                         'sender': loggedInUser.email,
@@ -140,7 +141,7 @@ class MessageStream extends StatelessWidget {
         }
         return Expanded(
           child: ListView(
-            //reverse: true,
+            reverse: true,
             padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),

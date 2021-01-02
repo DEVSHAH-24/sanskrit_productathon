@@ -41,13 +41,16 @@ class Login extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(25.0),
-            child: CircleAvatar(
-              backgroundColor: Colors.white,
-              maxRadius: 140,
-              child: Image(
-                height: 250,
-                width: 250,
-                image: AssetImage('assets/sanskritivelogo.jpeg'),
+            child: Hero(
+              tag: "sans",
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                maxRadius: 140,
+                child: Image(
+                  height: 250,
+                  width: 250,
+                  image: AssetImage('assets/sanskritivelogo.jpeg'),
+                ),
               ),
             ),
           ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,13 +17,25 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   FirebaseModel firebaseModel = FirebaseModel();
-
+  final Image img = Image(
+    image: AssetImage('assets/sanskritivelogo.jpeg'),
+  );
+  Timer _timer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Container(
-          child: Text('Hello'),
+        child: AnimatedContainer(
+          //transform: Matrix4(Arg),
+          //  color: Colors.white,
+          curve: Curves.easeInOut,
+          duration: Duration(seconds: 9),
+          child: Hero(
+            tag: "sans",
+            child: Image(
+              image: AssetImage('assets/sanskritivelogo.jpeg'),
+            ),
+          ),
         ),
       ),
     );
