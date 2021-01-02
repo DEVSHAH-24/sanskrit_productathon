@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/bottomPanelModel.dart';
+import 'package:sanskrit_project/pages/widgets/badge.dart';
 
 import './pages/home.dart';
 import './pages/learn.dart';
-import './pages/login.dart';
 import './pages/profile.dart';
-import 'models/signInModel.dart';
+import './pages/request.dart';
+import 'models/bottomPanelModel.dart';
+import 'models/data.dart';
 
 Map<String, Widget> _pages = {
   'Home': Home(),
@@ -22,18 +23,26 @@ class BottomPanel extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            icon: Icon(
-              Icons.logout,
+          Consumer<Data>(
+            builder: (context, data, child) => Badge(
+              value: data.count.toString(),
+              child: child,
+              color: Colors.redAccent,
             ),
-            onPressed: () async {
-              SignInModel _signInModel = SignInModel();
-              _signInModel.signOutGoogle();
-              Navigator.pushAndRemoveUntil(context,
+            child: IconButton(
+              icon: Icon(
+                Icons.add_alert_rounded,
+                color: Colors.white,
+              ),
+              onPressed: () async {
+                Navigator.push(
+                  context,
                   MaterialPageRoute(
-                    builder: (context) => Login(),
-                  ), (route) => false);
-            },
+                    builder: (context) => Request(),
+                  ),
+                );
+              },
+            ),
           ),
         ],
         title: Text(

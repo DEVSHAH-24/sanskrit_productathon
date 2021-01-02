@@ -195,47 +195,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               List<String> connectedUsers =
                                   data.connectedUserIds;
                               print(connectedUsers.length);
-                              List<DataModel> connectedUsersData = data.items;
+                              List<DataModel> connectedUsersData = data.usersData;
                               connectedUsersData.removeWhere((dataModel) =>
                                   !connectedUsers.contains(dataModel.userId));
                               print(connectedUsersData.length);
                               return ListView.builder(
                                   itemCount: connectedUsersData.length,
-                                  itemBuilder: (context, index) => Container(
-                                        padding: EdgeInsets.all(12),
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.rectangle),
-                                        child: ListTile(
-                                          onLongPress: () {},
-                                          tileColor: Colors.blue[100],
-                                          title: Text(
-                                            connectedUsersData[index].name,
-                                          ),
-                                          subtitle: Text(
-                                            connectedUsersData[index].email,
-                                          ),
-                                          trailing: IconButton(
-                                            color: Colors.black,
-                                            icon: Icon(
-                                              Provider.of<Data>(context)
-                                                      .isConnected(
-                                                          connectedUsersData[
-                                                                  index]
-                                                              .userId)
-                                                  ? Icons.link
-                                                  : Icons.link_off,
-                                              color: Colors.black,
-                                            ),
-                                            onPressed: () {
-                                              // Provider.of<Data>(context,
-                                              //         listen: false)
-                                              //     .toggleConnected(
-                                              //         connectedUsersData[index]
-                                              //             .userId);
-                                            },
-                                          ),
+                                  itemBuilder: (context, index) {
+                                    DataModel dataModel =
+                                        connectedUsersData[index];
+                                    return Container(
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                          shape: BoxShape.rectangle),
+                                      child: ListTile(
+                                        onLongPress: () {},
+                                        tileColor: Colors.blue[100],
+                                        title: Text(
+                                          connectedUsersData[index].name,
                                         ),
-                                      ));
+                                        subtitle: Text(
+                                          connectedUsersData[index].email,
+                                        ),
+                                        trailing: FlatButton(
+                                          child: Text(
+                                            'Connected',
+                                          ),
+                                          onPressed: () {
+                                            showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                    ),
+                                                    title: Text('ERROR'),
+                                                    content: Text(
+                                                      'Are You Sure?',
+                                                    ),
+                                                    elevation: 40,
+                                                    actions: <Widget>[
+                                                      FlatButton(
+                                                        onPressed: () async {
+                                                          await Navigator
+                                                                  .maybePop(
+                                                                      context)
+                                                              .then((value) => Provider.of<
+                                                                          Data>(
+                                                                      context,
+                                                                      listen:
+                                                                          false)
+                                                                  .removeConnect(
+                                                                      dataModel
+                                                                          .userId));
+                                                        },
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        child: Text(
+                                                          'Yes',
+                                                        ),
+                                                      ),
+                                                      FlatButton(
+                                                        onPressed: () async {
+                                                          await Navigator
+                                                              .maybePop(
+                                                                  context);
+                                                        },
+                                                        color: Theme.of(context)
+                                                            .primaryColor,
+                                                        child: Text(
+                                                          'No',
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
+                                          },
+                                        ),
+                                      ),
+                                    );
+                                  });
                             },
                           ));
                     },

@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
         ),
         Consumer<Data>(
           builder: (context, data, child) {
-            usersData = data.items;
+            usersData = data.usersData;
             return usersData.isNotEmpty
                 ? Expanded(
                     child: ListView.builder(

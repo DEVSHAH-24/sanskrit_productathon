@@ -9,7 +9,7 @@ class Data with ChangeNotifier {
   List<String> _sentByMe = [];
   final FirebaseModel fm = FirebaseModel();
 
-  List<DataModel> get items {
+  List<DataModel> get usersData {
     return [..._usersData];
   }
 
@@ -73,5 +73,8 @@ class Data with ChangeNotifier {
   bool receivedForMeRequest(String id) {
     if (_receivedForMe.contains(id)) return true;
     return false;
+  }
+  int get count{
+    return _receivedForMe.length+_sentByMe.length;
   }
 }
