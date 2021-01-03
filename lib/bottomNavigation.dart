@@ -1,6 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/pages/messaging.dart';
 import 'package:sanskrit_project/pages/widgets/badge.dart';
 
 import './pages/home.dart';
@@ -24,27 +24,41 @@ class BottomPanel extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Consumer<Data>(
-            builder: (context, data, child) => Badge(
-              value: data.count.toString(),
-              child: child,
-              color: Colors.redAccent,
-            ),
-            child: IconButton(
-              icon: Icon(
-                Icons.add_alert_rounded,
-                color: Colors.white,
-              ),
-              onPressed: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Request(),
+          _selectedPageIndex == 0
+              ? Consumer<Data>(
+                  builder: (context, data, child) => Badge(
+                    value: data.count.toString(),
+                    child: child,
+                    color: Colors.redAccent,
                   ),
-                );
-              },
-            ),
-          ),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.add_alert_rounded,
+                      color: Colors.white,
+                    ),
+                    onPressed: () async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Request(),
+                        ),
+                      );
+                    },
+                  ),
+                )
+              : _selectedPageIndex == 1
+                  ? IconButton(
+                      icon: Icon(
+                        CupertinoIcons.question,
+                        color: Colors.white,
+                      ),
+                      onPressed: null)
+                  : IconButton(
+                      icon: Icon(
+                        Icons.account_box_rounded,
+                        color: Colors.white,
+                      ),
+                      onPressed: null),
         ],
         title: Text(
           _pages.keys.elementAt(_selectedPageIndex),
