@@ -63,13 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: SingleChildScrollView(
               padding: EdgeInsets.only(bottom: 15),
               child: Column(
-                // padding: EdgeInsets.all(15.0),
-
-                // scrollDirection: Axis.vertical,
-
-                // shrinkWrap: true,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                //mainAxisAlignment: MainAxisAlignment.,
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 25, bottom: 20),
@@ -91,40 +85,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 2,
-                    ),
-                    child: Center(
-                      child: TextFormField(
-                        onFieldSubmitted: (value) =>
-                            _firebaseModel.updateUserName(value),
-                        initialValue: '${userData.name}'.toUpperCase(),
-                        textCapitalization: TextCapitalization.characters,
-                        autocorrect: false,
-                        decoration: InputDecoration(
-                          hintText: 'Enter your name here',
-                          border: InputBorder.none,
-                        ),
-                        style: TextStyle(
-                          decoration: TextDecoration.none,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 25,
-                          color: Colors.black,
-                        ),
-                      ),
+                  Text(
+                    '${userData.name}'.toUpperCase(),
+                    style: TextStyle(
+                      decoration: TextDecoration.none,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 25,
+                      color: Colors.black,
                     ),
                   ),
-                  // Text(
-                  //   '${userData.name}'.toUpperCase(),
-                  //   style: TextStyle(
-                  //     decoration: TextDecoration.none,
-                  //     fontWeight: FontWeight.w900,
-                  //     fontSize: 25,
-                  //     color: Colors.black,
-                  //   ),
-                  // ),
                   SizedBox(
                     height: 20,
                   ),
@@ -315,15 +284,3 @@ class _ProfileScreenState extends State<ProfileScreen> {
           );
   }
 }
-// DropdownMenuItem(
-// value: 'beginner',
-// child: Text(
-// 'Beginner',
-// style: TextStyle(
-// decoration: TextDecoration.none,
-// fontWeight: FontWeight.w700,
-// fontSize: 20,
-// color: Colors.black,
-// ),
-// ),
-// ),

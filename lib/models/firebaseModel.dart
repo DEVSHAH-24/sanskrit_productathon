@@ -67,12 +67,6 @@ class FirebaseModel {
     });
   }
 
-  Future<void> updateUserName(String name) async {
-    await ref.update({
-      'name': name,
-    });
-  }
-
   Future<void> updateConnectedUserIds(
       List<String> connectedUserIds, String userId) async {
     SignInModel signInModel = SignInModel();
@@ -210,6 +204,5 @@ class FirebaseModel {
       });
     });
     return true;
-    // Provider.of<Data>(context, listen: false).removeDataModel(dataModel);
   }
 }
