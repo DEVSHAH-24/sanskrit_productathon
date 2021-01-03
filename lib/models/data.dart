@@ -12,7 +12,9 @@ class Data with ChangeNotifier {
   List<DataModel> get usersData {
     return [..._usersData];
   }
-
+void  clearUsersData(){
+    _usersData.clear();
+}
   void addDataModel(DataModel dataModel) {
     _usersData.add(dataModel);
     notifyListeners();

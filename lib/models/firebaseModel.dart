@@ -188,6 +188,7 @@ class FirebaseModel {
   }
 
   Future<bool> fetchUsers(BuildContext context) async {
+    Provider.of<Data>(context, listen: false).clearUsersData();
     SignInModel signInModel = SignInModel();
     String userId = signInModel.getCurrentUser().uid;
     fetchConnectedUser(userId, context);
