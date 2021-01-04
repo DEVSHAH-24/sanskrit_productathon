@@ -37,6 +37,7 @@ class MyApp extends StatelessWidget {
                   color: Colors.black,
                 ),
                 color: Colors.blue[200],
+
                 shadowColor: Colors.tealAccent[700]),
             fontFamily: "ProductSans"),
         home: Splash(),

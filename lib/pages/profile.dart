@@ -146,10 +146,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
+
+                        // shape: BoxShape.circle,
                         boxShadow: [BoxShadow(color: Colors.grey[200])]),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                        //controller: controller,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        //showCursor: false,
                         decoration: InputDecoration(
                           hintText: 'I am a member of Sanskritive community :)',
                         ),

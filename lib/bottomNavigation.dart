@@ -18,6 +18,7 @@ Map<String, Widget> _pages = {
 };
 
 class BottomPanel extends StatelessWidget {
+  final ScrollController controller = ScrollController();
   final String sanskritURL = "https://www.101languages.net/sanskrit";
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class BottomPanel extends StatelessWidget {
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(15),
                 bottomRight: Radius.circular(15))),
-        backgroundColor: Colors.blue[300],
+        //backgroundColor: Colors.blue[300],
         actions: [
           _selectedPageIndex == 0
               ? Consumer<Data>(
@@ -107,29 +108,42 @@ class BottomPanel extends StatelessWidget {
                                   scrollable: true,
                                   title: Center(child: Text('About')),
                                   content: Container(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Sanskritive is a product aimed at instilling a momentum for a Sanskrit driven community by connecting people from different backgrounds to have a common platform for sharing ideas , teaching and solving Sanskrit related doubts , and be a part of a social Sanskrit ecosystem.',
-                                            style: TextStyle(
-                                                color: Colors.blue,
-                                                fontSize: 18),
+                                    child: Scrollbar(
+                                      controller: controller,
+                                      thickness: 15,
+                                      isAlwaysShown: true,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Center(
+                                            child: Image(
+                                              image: AssetImage(
+                                                  'assets/sanskritivelogo.jpeg'),
+                                              width: 200,
+                                              height: 200,
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Developed by: DEV SHAH , PAVAN ADDEPALLI , PARAM GROVER for the final round of Productathon conducted by IIT Roorkee',
-                                            style:
-                                                TextStyle(color: Colors.grey),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Sanskritive is a product aimed at instilling a momentum for a Sanskrit driven community by connecting people from different backgrounds to have a common platform for sharing ideas , teaching and solving Sanskrit related doubts , and be a part of a social Sanskrit ecosystem.',
+                                              style: TextStyle(
+                                                  color: Colors.blue,
+                                                  fontSize: 18),
+                                            ),
                                           ),
-                                        )
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Developed by: DEV SHAH , PAVAN ADDEPALLI , PARAM GROVER for the final round of Productathon conducted by IIT Roorkee',
+                                              style:
+                                                  TextStyle(color: Colors.grey),
+                                            ),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ));
