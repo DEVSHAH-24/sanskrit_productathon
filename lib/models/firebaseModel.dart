@@ -173,8 +173,8 @@ class FirebaseModel {
   Future<void> fetchConnectedUser(String uid, BuildContext context) async {
     initializeCollection(uid);
     List<String> connectedUserIds = [];
-    await ref.get().then((documentSnapshot) {
-      List<dynamic> connectedIds = documentSnapshot.data()['connectedUserIds'];
+    ref.snapshots().listen((querySnapshot) {
+      List<dynamic> connectedIds = querySnapshot.data()['connectedUserIds'];
       connectedUserIds = connectedIds.cast<String>();
     });
     Provider.of<Data>(context, listen: false)
@@ -187,17 +187,17 @@ class FirebaseModel {
     String userId = signInModel.getCurrentUser().uid;
     fetchConnectedUser(userId, context);
     CollectionReference reference = _db.collection('users');
-    await reference.get().then((cs) {
-      cs.docs.forEach((documentSnapshot) async {
-        if (documentSnapshot.id != userId) {
-          print(documentSnapshot.data()['name']);
+    reference.orderBy('userId').snapshots().listen((querySnapshot) {
+      querySnapshot.docChanges.forEach((change) {
+        if (change.doc.id != userId) {
+          print(change.doc.data()['name']);
           DataModel dataModel = DataModel(
-            name: documentSnapshot.data()['name'],
-            email: documentSnapshot.data()['email'],
-            photoUrl: documentSnapshot.data()['photoUrl'],
-            userId: documentSnapshot.data()['userId'],
-            label: documentSnapshot.data()['label'],
-            bio: documentSnapshot.data()['bio'],
+            name: change.doc.data()['name'],
+            email: change.doc.data()['email'],
+            photoUrl: change.doc.data()['photoUrl'],
+            userId: change.doc.data()['userId'],
+            label: change.doc.data()['label'],
+            bio: change.doc.data()['bio'],
           );
           Provider.of<Data>(context, listen: false).addDataModel(dataModel);
         }

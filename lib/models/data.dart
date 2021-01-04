@@ -16,12 +16,14 @@ void  clearUsersData(){
     _usersData.clear();
 }
   void addDataModel(DataModel dataModel) {
+    _usersData.removeWhere((dM) => dM.userId==dataModel.userId);
     _usersData.add(dataModel);
     notifyListeners();
   }
 
   void storeConnectedUserIds(List<String> connectedUserIds) {
     _connectedUserIds = connectedUserIds;
+    notifyListeners();
   }
 
   void storeReceivedForMe(List<String> receivedForMe) {
