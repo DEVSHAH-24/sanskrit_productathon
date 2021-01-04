@@ -18,364 +18,382 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'People nearby',
-                style: TextStyle(
-                  fontSize: 20,
+    return RefreshIndicator(
+      onRefresh: refreshPage,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'People nearby',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
-            ),
-            IconButton(
-              icon: Icon(Icons.chat),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MessagingScreen(),
+              IconButton(
+                icon: Icon(Icons.chat),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MessagingScreen(),
+                  ),
                 ),
-              ),
-            )
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Consumer<Data>(
-          builder: (context, data, child) {
-            usersData = data.usersData;
-            return usersData.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
-                      itemCount: usersData.length,
-                      itemBuilder: (context, index) {
-                        DataModel dataModel = usersData[index];
-                        return Card(
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(10),
-                            leading: Image.network(
-                              dataModel.photoUrl,
-                              width: 100,
-                              height: 100,
-                              fit: BoxFit.contain,
-                            ),
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  titlePadding: const EdgeInsets.all(8),
-                                  actions: [
-                                    Provider.of<Data>(context)
-                                            .sentByMeRequest(dataModel.userId)
-                                        ? FlatButton(
-                                            child: Text(
-                                              'Request Sent',
-                                            ),
-                                            onPressed: () {},
-                                          )
-                                        : Provider.of<Data>(context)
-                                                .receivedForMeRequest(
-                                                    dataModel.userId)
-                                            ? FlatButton(
-                                                child: Text(
-                                                  'Accept',
-                                                ),
-                                                onPressed: () {
-                                                  Provider.of<Data>(context,
-                                                          listen: false)
-                                                      .accept(dataModel.userId);
-                                                },
-                                              )
-                                            : Provider.of<Data>(context)
-                                                    .isConnected(
-                                                        dataModel.userId)
-                                                ? FlatButton(
-                                                    child: Text(
-                                                      'Connected',
-                                                    ),
-                                                    onPressed: () {
-                                                      showDialog(
-                                                          context: context,
-                                                          builder: (context) {
-                                                            return AlertDialog(
-                                                              shape:
-                                                                  RoundedRectangleBorder(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            15),
-                                                              ),
-                                                              title:
-                                                                  Text('ERROR'),
-                                                              content: Text(
-                                                                'Are You Sure?',
-                                                              ),
-                                                              elevation: 40,
-                                                              actions: <Widget>[
-                                                                FlatButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await Navigator.maybePop(context).then((value) => Provider.of<Data>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .removeConnect(
-                                                                            dataModel.userId));
-                                                                  },
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColor,
-                                                                  child: Text(
-                                                                    'Yes',
-                                                                  ),
-                                                                ),
-                                                                FlatButton(
-                                                                  onPressed:
-                                                                      () async {
-                                                                    await Navigator
-                                                                        .maybePop(
-                                                                            context);
-                                                                  },
-                                                                  color: Theme.of(
-                                                                          context)
-                                                                      .primaryColor,
-                                                                  child: Text(
-                                                                    'No',
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            );
-                                                          });
-                                                    },
-                                                  )
-                                                : FlatButton(
-                                                    textColor: Colors.black,
-                                                    child: Text(
-                                                      'Connect',
-                                                    ),
-                                                    onPressed: () {
-                                                      Provider.of<Data>(context,
-                                                              listen: false)
-                                                          .connect(
-                                                              dataModel.userId);
-                                                    },
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Consumer<Data>(
+            builder: (context, data, child) {
+              usersData = data.usersData;
+              return usersData.isNotEmpty
+                  ? Expanded(
+                      child: ListView.builder(
+                        itemCount: usersData.length,
+                        itemBuilder: (context, index) {
+                          DataModel dataModel = usersData[index];
+                          return Card(
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(10),
+                              leading: Image.network(
+                                dataModel.photoUrl,
+                                width: 100,
+                                height: 100,
+                                fit: BoxFit.contain,
+                              ),
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    titlePadding: const EdgeInsets.all(8),
+                                    actions: [
+                                      Provider.of<Data>(context)
+                                              .sentByMeRequest(dataModel.userId)
+                                          ? FlatButton(
+                                              child: Text(
+                                                'Request Sent',
+                                              ),
+                                              onPressed: () {},
+                                            )
+                                          : Provider.of<Data>(context)
+                                                  .receivedForMeRequest(
+                                                      dataModel.userId)
+                                              ? FlatButton(
+                                                  child: Text(
+                                                    'Accept',
                                                   ),
-                                  ],
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                    side: BorderSide(
-                                      width: 2,
-                                      color: Colors.black54,
+                                                  onPressed: () {
+                                                    Provider.of<Data>(context,
+                                                            listen: false)
+                                                        .accept(
+                                                            dataModel.userId);
+                                                  },
+                                                )
+                                              : Provider.of<Data>(context)
+                                                      .isConnected(
+                                                          dataModel.userId)
+                                                  ? FlatButton(
+                                                      child: Text(
+                                                        'Connected',
+                                                      ),
+                                                      onPressed: () {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              15),
+                                                                ),
+                                                                title: Text(
+                                                                    'ERROR'),
+                                                                content: Text(
+                                                                  'Are You Sure?',
+                                                                ),
+                                                                elevation: 40,
+                                                                actions: <
+                                                                    Widget>[
+                                                                  FlatButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await Navigator.maybePop(context).then((value) => Provider.of<Data>(
+                                                                              context,
+                                                                              listen:
+                                                                                  false)
+                                                                          .removeConnect(
+                                                                              dataModel.userId));
+                                                                    },
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                    child: Text(
+                                                                      'Yes',
+                                                                    ),
+                                                                  ),
+                                                                  FlatButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      await Navigator
+                                                                          .maybePop(
+                                                                              context);
+                                                                    },
+                                                                    color: Theme.of(
+                                                                            context)
+                                                                        .primaryColor,
+                                                                    child: Text(
+                                                                      'No',
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              );
+                                                            });
+                                                      },
+                                                    )
+                                                  : FlatButton(
+                                                      textColor: Colors.black,
+                                                      child: Text(
+                                                        'Connect',
+                                                      ),
+                                                      onPressed: () {
+                                                        Provider.of<Data>(
+                                                                context,
+                                                                listen: false)
+                                                            .connect(dataModel
+                                                                .userId);
+                                                      },
+                                                    ),
+                                    ],
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                      side: BorderSide(
+                                        width: 2,
+                                        color: Colors.black54,
+                                      ),
                                     ),
-                                  ),
-                                  contentPadding: const EdgeInsets.all(10),
-                                  title: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Image.network(
-                                      dataModel.photoUrl,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  content: Container(
-                                    child: Padding(
+                                    contentPadding: const EdgeInsets.all(10),
+                                    title: Padding(
                                       padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Name:',
-                                              style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                decorationStyle:
-                                                    TextDecorationStyle.dashed,
-                                                decorationThickness: 3,
+                                      child: Image.network(
+                                        dataModel.photoUrl,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    content: Container(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Name:',
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationStyle:
+                                                      TextDecorationStyle
+                                                          .dashed,
+                                                  decorationThickness: 3,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              dataModel.name,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Label:',
-                                              style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                decorationStyle:
-                                                    TextDecorationStyle.dashed,
-                                                decorationThickness: 3,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                dataModel.name,
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              dataModel.label,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              'Bio:',
-                                              style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                decorationStyle:
-                                                    TextDecorationStyle.dashed,
-                                                decorationThickness: 3,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Label:',
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationStyle:
+                                                      TextDecorationStyle
+                                                          .dashed,
+                                                  decorationThickness: 3,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              dataModel.bio,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                dataModel.label,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Bio:',
+                                                style: TextStyle(
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                  decorationStyle:
+                                                      TextDecorationStyle
+                                                          .dashed,
+                                                  decorationThickness: 3,
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                dataModel.bio,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                            title: Text(
-                              dataModel.name,
-                            ),
-                            subtitle: Text(
-                              dataModel.label,
-                            ),
-                            trailing: Provider.of<Data>(context)
-                                    .sentByMeRequest(dataModel.userId)
-                                ? FlatButton(
-                                    child: Text(
-                                      'Request Sent',
-                                    ),
-                                    onPressed: () {},
-                                  )
-                                : Provider.of<Data>(context)
-                                        .receivedForMeRequest(dataModel.userId)
-                                    ? FlatButton(
-                                        child: Text(
-                                          'Accept',
-                                        ),
-                                        onPressed: () {
-                                          Provider.of<Data>(context,
-                                                  listen: false)
-                                              .accept(dataModel.userId);
-                                        },
-                                      )
-                                    : Provider.of<Data>(context)
-                                            .isConnected(dataModel.userId)
-                                        ? FlatButton(
-                                            child: Text(
-                                              'Connected',
-                                            ),
-                                            onPressed: () {
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                      ),
-                                                      title: Text('ERROR'),
-                                                      content: Text(
-                                                        'Are You Sure?',
-                                                      ),
-                                                      elevation: 40,
-                                                      actions: <Widget>[
-                                                        FlatButton(
-                                                          onPressed: () async {
-                                                            await Navigator
-                                                                    .maybePop(
-                                                                        context)
-                                                                .then((value) => Provider.of<
-                                                                            Data>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .removeConnect(
-                                                                        dataModel
-                                                                            .userId));
-                                                          },
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          child: Text(
-                                                            'Yes',
-                                                          ),
-                                                        ),
-                                                        FlatButton(
-                                                          onPressed: () async {
-                                                            await Navigator
-                                                                .maybePop(
-                                                                    context);
-                                                          },
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          child: Text(
-                                                            'No',
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  });
-                                            },
-                                          )
-                                        : FlatButton(
-                                            textColor: Colors.black,
-                                            child: Text(
-                                              'Connect',
-                                            ),
-                                            onPressed: () {
-                                              Provider.of<Data>(context,
-                                                      listen: false)
-                                                  .connect(dataModel.userId);
-                                            },
+                                );
+                              },
+                              title: Text(
+                                dataModel.name,
+                              ),
+                              subtitle: Text(
+                                dataModel.label,
+                              ),
+                              trailing: Provider.of<Data>(context)
+                                      .sentByMeRequest(dataModel.userId)
+                                  ? FlatButton(
+                                      child: Text(
+                                        'Request Sent',
+                                      ),
+                                      onPressed: () {},
+                                    )
+                                  : Provider.of<Data>(context)
+                                          .receivedForMeRequest(
+                                              dataModel.userId)
+                                      ? FlatButton(
+                                          child: Text(
+                                            'Accept',
                                           ),
+                                          onPressed: () {
+                                            Provider.of<Data>(context,
+                                                    listen: false)
+                                                .accept(dataModel.userId);
+                                          },
+                                        )
+                                      : Provider.of<Data>(context)
+                                              .isConnected(dataModel.userId)
+                                          ? FlatButton(
+                                              child: Text(
+                                                'Connected',
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                        ),
+                                                        title: Text('ERROR'),
+                                                        content: Text(
+                                                          'Are You Sure?',
+                                                        ),
+                                                        elevation: 40,
+                                                        actions: <Widget>[
+                                                          FlatButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await Navigator
+                                                                      .maybePop(
+                                                                          context)
+                                                                  .then((value) => Provider.of<
+                                                                              Data>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .removeConnect(
+                                                                          dataModel
+                                                                              .userId));
+                                                            },
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            child: Text(
+                                                              'Yes',
+                                                            ),
+                                                          ),
+                                                          FlatButton(
+                                                            onPressed:
+                                                                () async {
+                                                              await Navigator
+                                                                  .maybePop(
+                                                                      context);
+                                                            },
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            child: Text(
+                                                              'No',
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      );
+                                                    });
+                                              },
+                                            )
+                                          : FlatButton(
+                                              textColor: Colors.black,
+                                              child: Text(
+                                                'Connect',
+                                              ),
+                                              onPressed: () {
+                                                Provider.of<Data>(context,
+                                                        listen: false)
+                                                    .connect(dataModel.userId);
+                                              },
+                                            ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : (!completed
+                      ? SpinKitDoubleBounce(
+                          color: Colors.black,
+                        )
+                      : Center(
+                          child: Text(
+                            'No Users Nearby',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
                           ),
-                        );
-                      },
-                    ),
-                  )
-                : (!completed
-                    ? SpinKitDoubleBounce(
-                        color: Colors.black,
-                      )
-                    : Center(
-                        child: Text(
-                          'No Users Nearby',
-                          style: TextStyle(
-                            fontSize: 20,
-                          ),
-                        ),
-                      ));
-          },
-        )
-      ],
+                        ));
+            },
+          )
+        ],
+      ),
     );
   }
 
@@ -396,5 +414,12 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     fetchUsers();
+  }
+
+  Future<void> refreshPage() async {
+    setState(() {
+      completed = false;
+      fetchUsers();
+    });
   }
 }
