@@ -25,6 +25,11 @@ class BottomPanel extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(15),
+                bottomRight: Radius.circular(15))),
+        backgroundColor: Colors.blue[300],
         actions: [
           _selectedPageIndex == 0
               ? Consumer<Data>(
@@ -58,30 +63,35 @@ class BottomPanel extends StatelessWidget {
                         showDialog(
                             barrierDismissible: true,
                             context: context,
-                            builder: (context) => AlertDialog(
-                                  title: Center(child: Text('Hey there!')),
-                                  content: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text(
-                                            'The learn tab consists of 101 basic words in Sanskrit with their English translations so that you may refer them on the go with ease!'),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: InkWell(
-                                          onTap: () {
-                                            launch(sanskritURL);
-                                          },
-                                          child: Text(
-                                            'Credit: $sanskritURL',
-                                            style: TextStyle(
-                                                color: Colors.deepPurple),
+                            builder: (context) => Center(
+                                  child: Wrap(children: [
+                                    AlertDialog(
+                                      scrollable: true,
+                                      title: Center(child: Text('Hey there!')),
+                                      content: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                                'The Learn tab consists of a set of basic words in Sanskrit along with their pronunciations (as written in brackets) and their English translations so that you may keep some of the most common words handy and refer with ease!'),
                                           ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: InkWell(
+                                              onTap: () {
+                                                launch(sanskritURL);
+                                              },
+                                              child: Text(
+                                                'Credit: $sanskritURL',
+                                                style: TextStyle(
+                                                    color: Colors.deepPurple),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ]),
                                 ));
                       })
                   : IconButton(
@@ -108,7 +118,7 @@ class BottomPanel extends StatelessWidget {
                                             'Sanskritive is a product aimed at instilling a momentum for a Sanskrit driven community by connecting people from different backgrounds to have a common platform for sharing ideas , teaching and solving Sanskrit related doubts , and be a part of a social Sanskrit ecosystem.',
                                             style: TextStyle(
                                                 color: Colors.blue,
-                                                fontSize: 20),
+                                                fontSize: 18),
                                           ),
                                         ),
                                         Padding(

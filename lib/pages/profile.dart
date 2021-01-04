@@ -162,6 +162,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ListTile(
                     onTap: () {
+                      //   Navigator.pop(context);
                       Scaffold.of(context).showBottomSheet((context) =>
                           Consumer<Data>(
                             builder: (context, data, child) {
