@@ -37,9 +37,14 @@ class _HomeState extends State<Home> {
               ),
             ),
             IconButton(
-                icon: Icon(Icons.chat),
-                onPressed: () => Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MessagingScreen())))
+              icon: Icon(Icons.chat),
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MessagingScreen(),
+                ),
+              ),
+            )
           ],
         ),
         const SizedBox(

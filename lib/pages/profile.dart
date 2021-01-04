@@ -1,3 +1,5 @@
+import 'dart:core';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -5,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:sanskrit_project/models/firebaseModel.dart';
 import 'package:sanskrit_project/models/signInModel.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../models/data.dart';
 import '../models/dataModel.dart';
@@ -184,67 +187,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         onLongPress: () {},
                                         tileColor: Colors.blue[100],
                                         title: Text(
-                                          connectedUsersData[index].name,
+                                          dataModel.name,
                                         ),
                                         subtitle: Text(
-                                          connectedUsersData[index].email,
+                                          dataModel.email,
                                         ),
-                                        trailing: FlatButton(
-                                          child: Text(
-                                            'Connected',
+                                        trailing: IconButton(
+                                          icon: Icon(
+                                            Icons.mail_outline,
+                                            color: Colors.black,
                                           ),
                                           onPressed: () {
-                                            showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              15),
-                                                    ),
-                                                    title: Text('ERROR'),
-                                                    content: Text(
-                                                      'Are You Sure?',
-                                                    ),
-                                                    elevation: 40,
-                                                    actions: <Widget>[
-                                                      FlatButton(
-                                                        onPressed: () async {
-                                                          await Navigator
-                                                                  .maybePop(
-                                                                      context)
-                                                              .then((value) => Provider.of<
-                                                                          Data>(
-                                                                      context,
-                                                                      listen:
-                                                                          false)
-                                                                  .removeConnect(
-                                                                      dataModel
-                                                                          .userId));
-                                                        },
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        child: Text(
-                                                          'Yes',
-                                                        ),
-                                                      ),
-                                                      FlatButton(
-                                                        onPressed: () async {
-                                                          await Navigator
-                                                              .maybePop(
-                                                                  context);
-                                                        },
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        child: Text(
-                                                          'No',
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  );
-                                                });
+                                            final Uri _emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path: dataModel.email,
+                                            );
+                                            launch(_emailLaunchUri.toString());
                                           },
                                         ),
                                       ),

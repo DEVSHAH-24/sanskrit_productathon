@@ -1,11 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:dash_chat/dash_chat.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_chat/dash_chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:async';
-import 'dart:io';
-
+import 'package:flutter/material.dart';
 import 'package:sanskrit_project/chat_constants.dart';
 
 final _firestore = FirebaseFirestore.instance;
