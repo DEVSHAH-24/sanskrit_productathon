@@ -16,7 +16,9 @@ class Data with ChangeNotifier {
   void clearUsersData() {
     _usersData.clear();
   }
-
+void clearConnectedUsers(){
+    _connectedUserIds.clear();
+}
   void addDataModel(DataModel dataModel) {
     _usersData.add(dataModel);
     notifyListeners();
@@ -24,6 +26,7 @@ class Data with ChangeNotifier {
 
   void storeConnectedUserIds(List<String> connectedUserIds) {
     _connectedUserIds = connectedUserIds;
+    notifyListeners();
   }
 
   void storeReceivedForMe(List<String> receivedForMe) {

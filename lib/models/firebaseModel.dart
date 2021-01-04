@@ -172,6 +172,7 @@ class FirebaseModel {
 
   Future<void> fetchConnectedUser(String uid, BuildContext context) async {
     initializeCollection(uid);
+    Provider.of<Data>(context, listen: false).clearConnectedUsers();
     List<String> connectedUserIds = [];
     await ref.get().then((documentSnapshot) {
       List<dynamic> connectedIds = documentSnapshot.data()['connectedUserIds'];
@@ -202,11 +203,6 @@ class FirebaseModel {
           );
           Provider.of<Data>(context, listen: false).addDataModel(dataModel);
         }
-      });
-    });
-    reference.snapshots().listen((querySnapshot) {
-      querySnapshot.docChanges.forEach((change) {
-        fetchConnectedUser(userId, context);
       });
     });
     return true;
