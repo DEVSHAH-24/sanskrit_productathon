@@ -86,6 +86,7 @@ class _MessagingScreenState extends State<MessagingScreen> {
                         'username': loggedInUser.displayName,
                         'msg': messageText,
                         'sender': loggedInUser.email,
+                        'timeStamp': DateTime.now().millisecondsSinceEpoch,
                       });
                     },
                     child: Text(
@@ -107,7 +108,8 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _firestore.collection('messages').snapshots(),
+      stream:
+          _firestore.collection('messages').orderBy('timeStamp',descending: true).snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -116,7 +118,7 @@ class MessageStream extends StatelessWidget {
             ),
           );
         }
-        final messages = snapshot.data.docs.reversed;
+        final messages = snapshot.data.docs;
         List<MessageBubble> messageBubbles = [];
         for (var message in messages) {
           final messageSenderName = message.data()['username'] != null
