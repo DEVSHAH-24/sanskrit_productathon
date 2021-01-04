@@ -95,20 +95,29 @@ class BottomPanel extends StatelessWidget {
                             barrierDismissible: true,
                             builder: (context) => AlertDialog(
                                   scrollable: true,
-                                  title: Text('About'),
+                                  title: Center(child: Text('About')),
                                   content: Container(
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text(
-                                          'Sanskritive is a product aimed at instilling a momentum for a Sanskrit driven community by connecting people from different backgrounds to have a common platform for sharing ideas , teaching and solving Sanskrit related doubts , and be a part of a social Sanskrit ecosystem.',
-                                          style: TextStyle(color: Colors.blue),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Sanskritive is a product aimed at instilling a momentum for a Sanskrit driven community by connecting people from different backgrounds to have a common platform for sharing ideas , teaching and solving Sanskrit related doubts , and be a part of a social Sanskrit ecosystem.',
+                                            style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 20),
+                                          ),
                                         ),
-                                        Text(
-                                          'Developed by: DEV SHAH , PAVAN ADDEPALLI , PARAM GROVER as a part of a Sanskrit Hackathon namely Productathon conducted by IIT Roorkee',
-                                          style: TextStyle(color: Colors.grey),
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            'Developed by: DEV SHAH , PAVAN ADDEPALLI , PARAM GROVER for the final round of Productathon conducted by IIT Roorkee',
+                                            style:
+                                                TextStyle(color: Colors.grey),
+                                          ),
                                         )
                                       ],
                                     ),
