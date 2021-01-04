@@ -74,6 +74,7 @@ class _HomeState extends State<Home> {
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
+                                    scrollable: true,
                                     titlePadding: const EdgeInsets.all(8),
                                     actions: [
                                       Provider.of<Data>(context)
@@ -118,9 +119,9 @@ class _HomeState extends State<Home> {
                                                                               15),
                                                                 ),
                                                                 title: Text(
-                                                                    'ERROR'),
+                                                                    'Confirm'),
                                                                 content: Text(
-                                                                  'Are You Sure?',
+                                                                  'Are You Sure you want to remove this person as your connection?',
                                                                 ),
                                                                 elevation: 40,
                                                                 actions: <

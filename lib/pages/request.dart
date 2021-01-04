@@ -65,7 +65,7 @@ class Request extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'Requests Received For Me',
+                'Requests received',
                 style: TextStyle(
                   fontSize: 20,
                 ),

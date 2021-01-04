@@ -29,7 +29,7 @@ class _SplashState extends State<Splash> {
           //transform: Matrix4(Arg),
           //  color: Colors.white,
           curve: Curves.easeInOut,
-          duration: Duration(seconds: 9),
+          duration: Duration(seconds: 3),
           child: Hero(
             tag: "sans",
             child: Image(
