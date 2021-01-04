@@ -68,7 +68,195 @@ class _HomeState extends State<Home> {
                               height: 100,
                               fit: BoxFit.contain,
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  titlePadding: const EdgeInsets.all(8),
+                                  actions: [
+                                    Provider.of<Data>(context)
+                                            .sentByMeRequest(dataModel.userId)
+                                        ? FlatButton(
+                                            child: Text(
+                                              'Request Sent',
+                                            ),
+                                            onPressed: () {},
+                                          )
+                                        : Provider.of<Data>(context)
+                                                .receivedForMeRequest(
+                                                    dataModel.userId)
+                                            ? FlatButton(
+                                                child: Text(
+                                                  'Accept',
+                                                ),
+                                                onPressed: () {
+                                                  Provider.of<Data>(context,
+                                                          listen: false)
+                                                      .accept(dataModel.userId);
+                                                },
+                                              )
+                                            : Provider.of<Data>(context)
+                                                    .isConnected(
+                                                        dataModel.userId)
+                                                ? FlatButton(
+                                                    child: Text(
+                                                      'Connected',
+                                                    ),
+                                                    onPressed: () {
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return AlertDialog(
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            15),
+                                                              ),
+                                                              title:
+                                                                  Text('ERROR'),
+                                                              content: Text(
+                                                                'Are You Sure?',
+                                                              ),
+                                                              elevation: 40,
+                                                              actions: <Widget>[
+                                                                FlatButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await Navigator.maybePop(context).then((value) => Provider.of<Data>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .removeConnect(
+                                                                            dataModel.userId));
+                                                                  },
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor,
+                                                                  child: Text(
+                                                                    'Yes',
+                                                                  ),
+                                                                ),
+                                                                FlatButton(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await Navigator
+                                                                        .maybePop(
+                                                                            context);
+                                                                  },
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColor,
+                                                                  child: Text(
+                                                                    'No',
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            );
+                                                          });
+                                                    },
+                                                  )
+                                                : FlatButton(
+                                                    textColor: Colors.black,
+                                                    child: Text(
+                                                      'Connect',
+                                                    ),
+                                                    onPressed: () {
+                                                      Provider.of<Data>(context,
+                                                              listen: false)
+                                                          .connect(
+                                                              dataModel.userId);
+                                                    },
+                                                  ),
+                                  ],
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    side: BorderSide(
+                                      width: 2,
+                                      color: Colors.black54,
+                                    ),
+                                  ),
+                                  contentPadding: const EdgeInsets.all(10),
+                                  title: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Image.network(
+                                      dataModel.photoUrl,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  content: Container(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Name:',
+                                              style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationStyle:
+                                                    TextDecorationStyle.dashed,
+                                                decorationThickness: 3,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              dataModel.name,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Label:',
+                                              style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationStyle:
+                                                    TextDecorationStyle.dashed,
+                                                decorationThickness: 3,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              dataModel.label,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Bio:',
+                                              style: TextStyle(
+                                                decoration:
+                                                    TextDecoration.underline,
+                                                decorationStyle:
+                                                    TextDecorationStyle.dashed,
+                                                decorationThickness: 3,
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              dataModel.bio,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                             title: Text(
                               dataModel.name,
                             ),
