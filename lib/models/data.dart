@@ -12,23 +12,24 @@ class Data with ChangeNotifier {
   List<DataModel> get usersData {
     return [..._usersData];
   }
-void  clearUsersData(){
+
+  void clearUsersData() {
     _usersData.clear();
-}
+  }
+
   void addDataModel(DataModel dataModel) {
-    _usersData.removeWhere((dM) => dM.userId==dataModel.userId);
     _usersData.add(dataModel);
     notifyListeners();
   }
 
   void storeConnectedUserIds(List<String> connectedUserIds) {
     _connectedUserIds = connectedUserIds;
-    notifyListeners();
   }
 
   void storeReceivedForMe(List<String> receivedForMe) {
     _receivedForMe = receivedForMe;
   }
+
   void storeSentByMe(List<String> sentByMe) {
     _sentByMe = sentByMe;
   }
@@ -53,7 +54,7 @@ void  clearUsersData(){
   void removeConnect(String id) {
     _connectedUserIds.remove(id);
     notifyListeners();
-    fm.updateConnectedUserIds(_connectedUserIds,id);
+    fm.updateConnectedUserIds(_connectedUserIds, id);
   }
 
   void connect(String id) {
@@ -78,7 +79,8 @@ void  clearUsersData(){
     if (_receivedForMe.contains(id)) return true;
     return false;
   }
-  int get count{
-    return _receivedForMe.length+_sentByMe.length;
+
+  int get count {
+    return _receivedForMe.length + _sentByMe.length;
   }
 }
