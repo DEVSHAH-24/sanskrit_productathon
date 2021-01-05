@@ -10,15 +10,18 @@ class Data with ChangeNotifier {
   final FirebaseModel fm = FirebaseModel();
 
   List<DataModel> get usersData {
+    _usersData.sort((a, b) => a.distance.compareTo(b.distance));
     return [..._usersData];
   }
 
   void clearUsersData() {
     _usersData.clear();
   }
-void clearConnectedUsers(){
+
+  void clearConnectedUsers() {
     _connectedUserIds.clear();
-}
+  }
+
   void addDataModel(DataModel dataModel) {
     _usersData.add(dataModel);
     notifyListeners();

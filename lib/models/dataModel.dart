@@ -8,6 +8,7 @@ class DataModel {
   final String bio;
   final List<String> receivedForMe;
   final List<String> sentByMe;
+  final double distance;
 
   const DataModel({
     this.name,
@@ -19,5 +20,6 @@ class DataModel {
     this.bio,
     this.receivedForMe,
     this.sentByMe,
+    this.distance,
   });
 }

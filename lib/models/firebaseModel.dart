@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:location/location.dart';
 import 'package:provider/provider.dart';
+import 'package:sanskrit_project/models/location.dart';
 
 import 'data.dart';
 import 'dataModel.dart';
@@ -170,6 +174,13 @@ class FirebaseModel {
     return data;
   }
 
+  void updateLocation(LocationData locationData) async {
+    await ref.update({
+      'latitude': locationData.latitude,
+      'longitude': locationData.longitude,
+    });
+  }
+
   Future<void> fetchConnectedUser(String uid, BuildContext context) async {
     initializeCollection(uid);
     Provider.of<Data>(context, listen: false).clearConnectedUsers();
@@ -187,11 +198,24 @@ class FirebaseModel {
     SignInModel signInModel = SignInModel();
     String userId = signInModel.getCurrentUser().uid;
     fetchConnectedUser(userId, context);
-
+    bool hasLocation = await getLocation();
+    double userLat = 0;
+    double userLong = 0;
+    Location location = Location();
+    LocationData locationData = await location.getLocation();
+    userLat = locationData.latitude;
+    userLong = locationData.longitude;
     CollectionReference reference = _db.collection('users');
     await reference.get().then((cs) {
       cs.docs.forEach((documentSnapshot) async {
         if (documentSnapshot.id != userId) {
+          double distance = 0;
+          if (hasLocation) {
+            final double lat2 = documentSnapshot.data()['latitude'];
+            final double long2 = documentSnapshot.data()['longitude'];
+            distance = sqrt(pow(long2 - userLong, 2) + pow(lat2 - userLat, 2));
+          }
+          print(distance);
           print(documentSnapshot.data()['name']);
           DataModel dataModel = DataModel(
             name: documentSnapshot.data()['name'],
@@ -200,6 +224,7 @@ class FirebaseModel {
             userId: documentSnapshot.data()['userId'],
             label: documentSnapshot.data()['label'],
             bio: documentSnapshot.data()['bio'],
+            distance: distance,
           );
           Provider.of<Data>(context, listen: false).addDataModel(dataModel);
         }
