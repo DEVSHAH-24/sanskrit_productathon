@@ -320,9 +320,9 @@ class _HomeState extends State<Home> {
                                                                   .circular(15),
                                                         ),
                                                         title:
-                                                            const Text('ERROR'),
+                                                            const Text('Confirm'),
                                                         content: const Text(
-                                                          'Are You Sure?',
+                                                          'Are You Sure you want to remove this person as your connection?',
                                                         ),
                                                         elevation: 40,
                                                         actions: <Widget>[
