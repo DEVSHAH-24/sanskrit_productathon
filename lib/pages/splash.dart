@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/data.dart';
+import '../models/data.dart';
 
 import '../bottomNavigation.dart';
 import '../models/dataModel.dart';
@@ -18,9 +16,11 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   FirebaseModel firebaseModel = FirebaseModel();
   final Image img = Image(
-    image: AssetImage('assets/sanskritivelogo.jpeg'),
+    image: const AssetImage(
+      'assets/sanskritivelogo.jpeg',
+    ),
   );
-  Timer _timer;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

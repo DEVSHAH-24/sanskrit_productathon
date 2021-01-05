@@ -6,10 +6,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/location.dart';
 
 import 'data.dart';
 import 'dataModel.dart';
+import 'location.dart';
 import 'signInModel.dart';
 
 class FirebaseModel {

@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dash_chat/dash_chat.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sanskrit_project/chat_constants.dart';
+
+import '../chat_constants.dart';
 
 final _firestore = FirebaseFirestore.instance;
 User loggedInUser;
-final GlobalKey<DashChatState> _chatViewKey = GlobalKey<DashChatState>();
 
 class MessagingScreen extends StatefulWidget {
   @override
@@ -20,7 +19,6 @@ class _MessagingScreenState extends State<MessagingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentUser();
   }
@@ -35,8 +33,8 @@ class _MessagingScreenState extends State<MessagingScreen> {
       showDialog(
           context: context,
           builder: (context) => AlertDialog(
-                title:
-                    Text('Error - Please try again. Do check your mobile data'),
+                title: const Text(
+                    'Error - Please try again. Do check your mobile data'),
                 content: Text(e),
               ));
       print(e);
@@ -47,16 +45,8 @@ class _MessagingScreenState extends State<MessagingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sanskritive global chat'),
+        title: const Text('Sanskritive global chat'),
         centerTitle: true,
-        actions: [
-          // IconButton(
-          //     icon: Icon(Icons.close),
-          //     onPressed: () {
-          //       _auth.signOut();
-          //       Navigator.pop(context);
-          //     }),
-        ],
       ),
       body: SafeArea(
         child: Column(
@@ -108,8 +98,10 @@ class MessageStream extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream:
-          _firestore.collection('messages').orderBy('timeStamp',descending: true).snapshots(),
+      stream: _firestore
+          .collection('messages')
+          .orderBy('timeStamp', descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
@@ -140,7 +132,8 @@ class MessageStream extends StatelessWidget {
         return Expanded(
           child: ListView(
             reverse: true,
-            padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
             children: messageBubbles,
           ),
         );
@@ -150,7 +143,7 @@ class MessageStream extends StatelessWidget {
 }
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble({this.sender, this.text, this.isMe});
+  const MessageBubble({this.sender, this.text, this.isMe});
 
   final String sender;
   final String text;
@@ -159,25 +152,25 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(10.0),
       child: Column(
         crossAxisAlignment:
             isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             sender,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12.0,
               color: Colors.black54,
             ),
           ),
           Material(
             borderRadius: isMe
-                ? BorderRadius.only(
+                ? const BorderRadius.only(
                     topLeft: Radius.circular(30.0),
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0))
-                : BorderRadius.only(
+                : const BorderRadius.only(
                     bottomLeft: Radius.circular(30.0),
                     bottomRight: Radius.circular(30.0),
                     topRight: Radius.circular(30.0),
@@ -185,7 +178,8 @@ class MessageBubble extends StatelessWidget {
             elevation: 5.0,
             color: isMe ? Colors.lightBlueAccent : Colors.white,
             child: Padding(
-              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+              padding:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
               child: Text(
                 text,
                 style: TextStyle(

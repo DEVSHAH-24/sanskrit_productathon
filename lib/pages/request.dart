@@ -13,7 +13,7 @@ class Request extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Requests',
         ),
       ),
@@ -22,7 +22,7 @@ class Request extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Text(
+              child: const Text(
                 'Requests Sent By Me',
                 style: TextStyle(
                   fontSize: 20,
@@ -50,7 +50,7 @@ class Request extends StatelessWidget {
                     dataModel.label,
                   ),
                   trailing: FlatButton(
-                    child: Text(
+                    child: const Text(
                       'Request Sent',
                     ),
                     onPressed: () {},
@@ -58,11 +58,11 @@ class Request extends StatelessWidget {
                 ),
               );
             }).toList(),
-            Divider(
+            const Divider(
               thickness: 2,
               color: Colors.black,
             ),
-            Padding(
+            const Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 'Requests received',
@@ -92,7 +92,7 @@ class Request extends StatelessWidget {
                     dataModel.label,
                   ),
                   trailing: FlatButton(
-                    child: Text(
+                    child: const Text(
                       'Accept',
                     ),
                     onPressed: () {
@@ -103,7 +103,7 @@ class Request extends StatelessWidget {
                 ),
               );
             }).toList(),
-            Divider(
+            const Divider(
               thickness: 2,
               color: Colors.black,
             ),

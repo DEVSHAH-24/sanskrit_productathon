@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/pages/messaging.dart';
 
 import '../models/data.dart';
 import '../models/dataModel.dart';
 import '../models/firebaseModel.dart';
+import 'messaging.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(
+                child: const Text(
                   'People nearby',
                   style: TextStyle(
                     fontSize: 20,
@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
                                       Provider.of<Data>(context)
                                               .sentByMeRequest(dataModel.userId)
                                           ? FlatButton(
-                                              child: Text(
+                                              child: const Text(
                                                 'Request Sent',
                                               ),
                                               onPressed: () {},
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                                                   .receivedForMeRequest(
                                                       dataModel.userId)
                                               ? FlatButton(
-                                                  child: Text(
+                                                  child: const Text(
                                                     'Accept',
                                                   ),
                                                   onPressed: () {
@@ -103,7 +103,7 @@ class _HomeState extends State<Home> {
                                                       .isConnected(
                                                           dataModel.userId)
                                                   ? FlatButton(
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Connected',
                                                       ),
                                                       onPressed: () {
@@ -118,9 +118,10 @@ class _HomeState extends State<Home> {
                                                                           .circular(
                                                                               15),
                                                                 ),
-                                                                title: Text(
+                                                                title: const Text(
                                                                     'Confirm'),
-                                                                content: Text(
+                                                                content:
+                                                                    const Text(
                                                                   'Are You Sure you want to remove this person as your connection?',
                                                                 ),
                                                                 elevation: 40,
@@ -139,7 +140,8 @@ class _HomeState extends State<Home> {
                                                                     color: Theme.of(
                                                                             context)
                                                                         .primaryColor,
-                                                                    child: Text(
+                                                                    child:
+                                                                        const Text(
                                                                       'Yes',
                                                                     ),
                                                                   ),
@@ -153,7 +155,8 @@ class _HomeState extends State<Home> {
                                                                     color: Theme.of(
                                                                             context)
                                                                         .primaryColor,
-                                                                    child: Text(
+                                                                    child:
+                                                                        const Text(
                                                                       'No',
                                                                     ),
                                                                   ),
@@ -164,7 +167,7 @@ class _HomeState extends State<Home> {
                                                     )
                                                   : FlatButton(
                                                       textColor: Colors.black,
-                                                      child: Text(
+                                                      child: const Text(
                                                         'Connect',
                                                       ),
                                                       onPressed: () {
@@ -178,7 +181,7 @@ class _HomeState extends State<Home> {
                                     ],
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20),
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                         width: 2,
                                         color: Colors.black54,
                                       ),
@@ -202,7 +205,7 @@ class _HomeState extends State<Home> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text(
+                                              child: const Text(
                                                 'Name:',
                                                 style: TextStyle(
                                                   decoration:
@@ -224,7 +227,7 @@ class _HomeState extends State<Home> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text(
+                                              child: const Text(
                                                 'Label:',
                                                 style: TextStyle(
                                                   decoration:
@@ -246,7 +249,7 @@ class _HomeState extends State<Home> {
                                             Padding(
                                               padding:
                                                   const EdgeInsets.all(8.0),
-                                              child: Text(
+                                              child: const Text(
                                                 'Bio:',
                                                 style: TextStyle(
                                                   decoration:
@@ -281,7 +284,7 @@ class _HomeState extends State<Home> {
                               trailing: Provider.of<Data>(context)
                                       .sentByMeRequest(dataModel.userId)
                                   ? FlatButton(
-                                      child: Text(
+                                      child: const Text(
                                         'Request Sent',
                                       ),
                                       onPressed: () {},
@@ -290,7 +293,7 @@ class _HomeState extends State<Home> {
                                           .receivedForMeRequest(
                                               dataModel.userId)
                                       ? FlatButton(
-                                          child: Text(
+                                          child: const Text(
                                             'Accept',
                                           ),
                                           onPressed: () {
@@ -302,7 +305,7 @@ class _HomeState extends State<Home> {
                                       : Provider.of<Data>(context)
                                               .isConnected(dataModel.userId)
                                           ? FlatButton(
-                                              child: Text(
+                                              child: const Text(
                                                 'Connected',
                                               ),
                                               onPressed: () {
@@ -316,8 +319,9 @@ class _HomeState extends State<Home> {
                                                               BorderRadius
                                                                   .circular(15),
                                                         ),
-                                                        title: Text('ERROR'),
-                                                        content: Text(
+                                                        title:
+                                                            const Text('ERROR'),
+                                                        content: const Text(
                                                           'Are You Sure?',
                                                         ),
                                                         elevation: 40,
@@ -340,7 +344,7 @@ class _HomeState extends State<Home> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .primaryColor,
-                                                            child: Text(
+                                                            child: const Text(
                                                               'Yes',
                                                             ),
                                                           ),
@@ -354,7 +358,7 @@ class _HomeState extends State<Home> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .primaryColor,
-                                                            child: Text(
+                                                            child: const Text(
                                                               'No',
                                                             ),
                                                           ),
@@ -365,7 +369,7 @@ class _HomeState extends State<Home> {
                                             )
                                           : FlatButton(
                                               textColor: Colors.black,
-                                              child: Text(
+                                              child: const Text(
                                                 'Connect',
                                               ),
                                               onPressed: () {
@@ -384,7 +388,7 @@ class _HomeState extends State<Home> {
                           color: Colors.black,
                         )
                       : Center(
-                          child: Text(
+                          child: const Text(
                             'No Users Nearby',
                             style: TextStyle(
                               fontSize: 20,

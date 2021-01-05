@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/bottomPanelModel.dart';
 
+import './models/bottomPanelModel.dart';
 import './pages/splash.dart';
 import 'models/data.dart';
 

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
-import 'package:sanskrit_project/models/firebaseModel.dart';
-import 'package:sanskrit_project/models/signInModel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../models/data.dart';
 import '../models/dataModel.dart';
+import '../models/firebaseModel.dart';
+import '../models/signInModel.dart';
 import '../pages/login.dart';
 import '../pages/widgets/roundedButton.dart';
 
@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   SignInModel _signInModel = SignInModel();
   FirebaseModel _firebaseModel = FirebaseModel();
 
-  List<Item> users = <Item>[
+  static const List<Item> users = const <Item>[
     const Item('Beginner', Colors.green),
     const Item('Intermediate', Colors.yellow),
     const Item('Expert', Colors.red),
@@ -64,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return userData.name != null
         ? Container(
             child: SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: 15),
+              padding: const EdgeInsets.only(bottom: 15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -79,29 +79,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         image: NetworkImage(
                           userData.photoUrl,
                         ),
-                        placeholder: AssetImage(
+                        placeholder: const AssetImage(
                           'assets/images.png',
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Text(
                     '${userData.name}'.toUpperCase(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       decoration: TextDecoration.none,
                       fontWeight: FontWeight.w900,
                       fontSize: 25,
                       color: Colors.black,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   DropdownButton<Item>(
-                    hint: Text(
+                    hint: const Text(
                       "Select level of proficiency",
                     ),
                     value: selectedItem,
@@ -120,24 +120,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: <Widget>[
                             Text(
                               user.name,
-                              style: TextStyle(color: user.color),
+                              style: TextStyle(
+                                color: user.color,
+                              ),
                             ),
                           ],
                         ),
                       );
                     }).toList(),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.grey[200])]),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[200],
+                        ),
+                      ],
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Align(
                         alignment: Alignment.center,
-                        child: Text(
+                        child: const Text(
                           'BIO',
                           style: TextStyle(color: Colors.black, fontSize: 22),
                         ),
@@ -146,9 +153,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-
-                        // shape: BoxShape.circle,
-                        boxShadow: [BoxShadow(color: Colors.grey[200])]),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey[200],
+                        ),
+                      ],
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
@@ -172,7 +182,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Scaffold.of(context).showBottomSheet((context) =>
                           Consumer<Data>(
                             builder: (context, data, child) {
-                              print('rebuild');
                               List<String> connectedUsers =
                                   data.connectedUserIds;
                               print(connectedUsers.length);
@@ -187,7 +196,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     DataModel dataModel =
                                         connectedUsersData[index];
                                     return Container(
-                                      padding: EdgeInsets.all(12),
+                                      padding: const EdgeInsets.all(12),
                                       decoration: BoxDecoration(
                                           shape: BoxShape.rectangle),
                                       child: ListTile(
@@ -200,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           dataModel.email,
                                         ),
                                         trailing: IconButton(
-                                          icon: Icon(
+                                          icon: const Icon(
                                             Icons.mail_outline,
                                             color: Colors.black,
                                           ),
@@ -218,8 +227,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ));
                     },
-                    subtitle: Text('Tap to see all your connections'),
-                    title: Text('Connections'),
+                    subtitle: const Text(
+                      'Tap to see all your connections',
+                    ),
+                    title: const Text(
+                      'Connections',
+                    ),
                     trailing: Consumer<Data>(
                       builder: (context, data, child) => Text(
                         data.connectedUserIds.length.toString(),
@@ -244,7 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             ),
           )
-        : SpinKitDoubleBounce(
+        : const SpinKitDoubleBounce(
             color: Colors.black,
           );
   }

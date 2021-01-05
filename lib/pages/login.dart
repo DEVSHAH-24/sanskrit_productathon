@@ -17,14 +17,14 @@ class Login extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
             ),
-            title: Text('ERROR'),
-            content: Text('Unable To Login'),
+            title: const Text('ERROR'),
+            content: const Text('Unable To Login'),
             elevation: 40,
             actions: <Widget>[
               FlatButton(
                 onPressed: () => Navigator.pop(context),
                 color: Theme.of(context).primaryColor,
-                child: Text('Ok'),
+                child:  const Text('Ok'),
               )
             ],
           );
@@ -57,7 +57,7 @@ class Login extends StatelessWidget {
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 maxRadius: 140,
-                child: Image(
+                child:  const Image(
                   height: 250,
                   width: 250,
                   image: AssetImage('assets/sanskritivelogo.jpeg'),
@@ -72,7 +72,7 @@ class Login extends StatelessWidget {
                 minWidth: MediaQuery.of(context).size.width * 0.7,
                 splashColor: Colors.red,
                 padding: const EdgeInsets.all(10),
-                shape: StadiumBorder(
+                shape:  const StadiumBorder(
                   side: BorderSide(
                     color: Colors.grey,
                     width: 2,
@@ -105,7 +105,7 @@ class Login extends StatelessWidget {
                     const SizedBox(
                       width: 6,
                     ),
-                    Text(
+                    const Text(
                       'Login with Google',
                     ),
                   ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sanskrit_project/models/dataModel.dart';
-import 'package:sanskrit_project/models/firebaseModel.dart';
+import 'dataModel.dart';
+import 'firebaseModel.dart';
 
 class Data with ChangeNotifier {
   List<DataModel> _usersData = [];

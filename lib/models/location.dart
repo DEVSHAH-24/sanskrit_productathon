@@ -1,5 +1,5 @@
 import 'package:location/location.dart';
-import 'package:sanskrit_project/models/firebaseModel.dart';
+import 'firebaseModel.dart';
 
 Future<bool> getLocation() async {
   Location location = new Location();

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Map<String, String> sanskritwordmap = {
+const Map<String, String> sanskritWordMap = const {
   "I": "अहम् (ahám)",
   "you (singular)": "त्वम् (tvám)",
   "he": "स (sá)",
@@ -214,9 +214,10 @@ class LearnPage extends StatefulWidget {
 
 class _LearnPageState extends State<LearnPage> {
   ScrollController controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    sanskritwordmap.forEach((key, value) {
+    sanskritWordMap.forEach((key, value) {
       sanskritWords.add(value);
       englishWords.add(key);
     });
@@ -224,37 +225,38 @@ class _LearnPageState extends State<LearnPage> {
       controller: controller,
       isAlwaysShown: true,
       child: Container(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: GridView.builder(
-            controller: controller,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 5,
-                crossAxisSpacing: 5,
-                childAspectRatio: 1),
-            itemCount: sanskritwordmap.length,
-            itemBuilder: (context, index) => GestureDetector(
-                  onTap: () {
-                    showDialog(
-                        barrierDismissible: true,
-                        context: context,
-                        builder: (context) => AlertDialog(
-                              title: Text(sanskritWords[index]),
-                              content: Text('MEANING : ${englishWords[index]}'),
-                            ));
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(15)),
-                    child: Center(
-                      child: Text(
-                        sanskritWords[index],
-                        style: TextStyle(fontSize: 15, color: Colors.white),
-                      ),
-                    ),
-                  ),
-                )),
+          controller: controller,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              mainAxisSpacing: 5,
+              crossAxisSpacing: 5,
+              childAspectRatio: 1),
+          itemCount: sanskritWordMap.length,
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () {
+              showDialog(
+                barrierDismissible: true,
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(sanskritWords[index]),
+                  content: Text('MEANING : ${englishWords[index]}'),
+                ),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.grey, borderRadius: BorderRadius.circular(15)),
+              child: Center(
+                child: Text(
+                  sanskritWords[index],
+                  style: const TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
